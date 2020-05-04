@@ -1,14 +1,14 @@
 {
-  "name": "js-starter",
+  "name": "SafeHaven",
   "version": "0.0.1",
-  "description": "A boilerplate for starting js code",
+  "description": "A SafeHaven Project",
   "keywords": [
-    "js-starter",
-    "boilerplate"
+    "safehaven",
+    "build4sdg"
   ],
   "private": false,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "directories": {
     "test": "__tests__"
   },
@@ -17,7 +17,16 @@
     "test:watch": "jest --watch",
     "test:cover": "jest --coverage",
     "lint": "eslint \"src/**/*.js\"",
-    "start": "parcel ./src/index.html"
+    "dev": "nodemon --exec babel-node src/index.js",
+    "start": "npm run build && node build/index.js",
+    "build": "babel src --out-dir build",
+    "db:migrate": "./node_modules/.bin/sequelize db:migrate",
+    "db:migrate:test": "./node_modules/.bin/sequelize db:migrate --env test",
+    "db:seed:all:test": "./node_modules/.bin/sequelize db:seed:all --env test",
+    "db:migrate:undo": "node_modules/.bin/sequelize db:migrate:undo:all",
+    "db:seed:all": "./node_modules/.bin/sequelize db:seed:all",
+    "db:generate:model": "npx sequelize model:generate",
+    "db:seed:undo": "npx sequelize db:seed:undo"
   },
   "author": {
     "name": "Build For SDG",
@@ -32,18 +41,71 @@
     "url": "https://github.com/BuildForSDG/js-starter/issues"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.14.0",
+    "cors": "^2.8.5",
+    "cross-env": "^5.2.0",
+    "datauri": "^2.0.0",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "google-auth-library": "*",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.1",
+    "nodemailer": "^6.3.0",
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "path": "^0.12.7",
+    "pg": "^7.12.1",
+    "redis": "2.8.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "sequelize": "^5.16.0",
+    "sequelize-cli": "^5.5.0",
+    "sequelize-hierarchy": "^2.0.4",
+    "socket.io": "^2.3.0",
+    "uuid": "^3.3.3"
+  },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
+    "@babel/node": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "babel-eslint": "^10.0.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "babel-jest": "^25.4.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "jest": "^25.4.0",
-    "parcel-bundler": "^1.12.4"
+    "faker": "^4.1.0",
+    "mocha": "^6.2.0",
+    "nodemailer-mock": "^1.4.3",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.0"
   },
   "browserslist": [
     "last 1 Chrome versions"
-  ]
+  ],
+  "nyc": {
+    "exclude": [
+      "src/models/index.js",
+      "src/models",
+      "tests",
+      "node_modules"
+    ],
+    "require": [
+      "@babel/register"
+    ],
+    "sourceMap": false,
+    "cache": false,
+    "report-dir": "tests/report"
+  }
 }

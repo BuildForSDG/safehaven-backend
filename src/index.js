@@ -1,11 +1,11 @@
+import http from 'http';
 import app from './app';
 
-const startApp = async () => {
-  const header = document.querySelector('[data-app-name]');
-  if (!header) return;
+const port = process.env.PORT || 9000;
+const server = http.createServer(app);
 
-  const programName = await app();
-  header.textContent = programName;
-};
+server.listen(port, () => {
+	console.log(`Server is running on port ${port}`);
+});
 
-document.addEventListener('DOMContentLoaded', startApp);
+export default server;
