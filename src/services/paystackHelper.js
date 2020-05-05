@@ -191,5 +191,5 @@ const transfer = async (amount, recipient) => {
 };
 
 module.exports = {
-  getBanks, verifyAccount, createRecipient, tokenize, charge, transfer, updateRecipient, sendOtp
+  getBanks, verifyAccount, createRecipient, tokenize, charge, transfer, sendOtp
 };
