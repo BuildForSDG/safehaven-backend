@@ -13,9 +13,8 @@
     "test": "__tests__"
   },
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cover": "jest --coverage",
+    "test": "cross-env NODE_ENV=test npm run db:migrate:undo && npm run db:migrate && nyc mocha --no-timeout './tests/index.js' --exit",
+    "test:report": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 './tests/index.js' --exit",
     "lint": "eslint \"src/**/*.js\"",
     "dev": "nodemon --exec babel-node src/index.js",
     "start": "npm run build && node build/index.js",
