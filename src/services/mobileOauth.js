@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const { OAuth2Client } = require('google-auth-library');
 const dotEnv = require('dotenv');
 const rp = require('request-promise');

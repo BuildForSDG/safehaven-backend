@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import cloudinary from 'cloudinary';
 import uuid from 'uuid';
 import path from 'path';
@@ -14,10 +15,7 @@ const uploadimage = async (file, public_id = {}) => {
   const { content } = dataUri;
 
   const result = await cloudinary.v2.uploader.upload(content, {
-    public_id:
-
-				public_id == {} ? `join_task/${public_id}`
-				  : `join_task/${uuid()}`
+    public_id: public_id === {} ? `join_task/${public_id}` : `join_task/${uuid()}`
   });
 
   // return console.log(result);
@@ -30,9 +28,7 @@ const uploadVideo = async (file, public_id = '') => {
   const { content } = dataUri;
   const result = await cloudinary.v2.uploader.upload(content, {
     public_id:
-
-				public_id !== '' ? `join_task/${public_id}`
-				  : `join_task/${uuid()}`,
+  public_id !== '' ? `join_task/${public_id}` : `join_task/${uuid()}`,
     resource_type: 'video'
   });
   return result.secure_url;
@@ -44,9 +40,7 @@ const uploadAFile = async (file_name, buffer, public_id = '') => {
   const { content } = dataUri;
   const result = await cloudinary.v2.uploader.upload(content, {
     public_id:
-
-				public_id !== '' ? `join_task/${public_id}`
-				  : `join_task/${uuid()}`,
+public_id !== '' ? `join_task/${public_id}` : `join_task/${uuid()}`,
     resource_type: 'auto'
   });
   return result.secure_url;

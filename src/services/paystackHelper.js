@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const rp = require('request-promise');
 const dotEnv = require('dotenv');
 

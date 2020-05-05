@@ -18,6 +18,7 @@ module.exports = {
   rules: {
     'comma-dangle': ['error', 'never'],
     'no-param-reassign': ['error', { props: false }],
-    "no-unused-vars": ['error', { varsIgnorePattern: 'should|expect' }]
+    "no-unused-vars": ['error', { varsIgnorePattern: 'should|expect' }],
+    "no-console": ["error", { allow: ['warn', 'error', 'log'] }]
   }
 };

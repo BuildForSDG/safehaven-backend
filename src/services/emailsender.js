@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { transporter } from '../config/nodemailer-config';
 
 const SendMail = (to, token, id) => {
@@ -52,19 +53,18 @@ const SendAnyMail = (to, subject, message) => {
 
 // contact us email
 const SendContactEmail = (name, body, phone, email) => {
-  const hostUrl = 'admin@jointtaskfoundation.com';
   const mailOptions = {
-	  from: 'admin@jointtaskfoundation.com',
-	  to: 'admin@jointtaskfoundation.com',
-	  subject: `Message From ${name}`,
-	  text: `${body} \nemail: ${email} \nphone: ${phone}`
+    from: 'admin@jointtaskfoundation.com',
+    to: 'admin@jointtaskfoundation.com',
+    subject: `Message From ${name}`,
+    text: `${body} \nemail: ${email} \nphone: ${phone}`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
-	  if (error) {
+    if (error) {
       return ('error sending verification');
-	  }
-	  console.log(`Email sent: ${info.response}`);
+    }
+    console.log(`Email sent: ${info.response}`);
   });
 };
 

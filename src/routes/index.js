@@ -22,7 +22,6 @@ export default (app) => {
   // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => {
     // don't print stack traces in production environment
-    // eslint-disable-next-line no-console
     if (app.get('env') !== 'production') console.log(error.stack);
     res.status(error.status || 500);
     res.send({
