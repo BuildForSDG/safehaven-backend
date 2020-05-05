@@ -25,7 +25,9 @@
     "db:migrate:undo": "node_modules/.bin/sequelize db:migrate:undo:all",
     "db:seed:all": "./node_modules/.bin/sequelize db:seed:all",
     "db:generate:model": "npx sequelize model:generate",
-    "db:seed:undo": "npx sequelize db:seed:undo"
+    "db:seed:undo": "npx sequelize db:seed:undo",
+    "coverage": "cross-env NODE_ENV=test nyc npm run test && nyc report --reporter=lcov --reporter=text-lcov --exit",
+    "test-a": "cross-env NODE_ENV=test nyc npm run test"
   },
   "author": {
     "name": "Build For SDG",
@@ -79,6 +81,7 @@
     "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "coveralls": "^3.0.6",
     "babel-jest": "^25.4.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
