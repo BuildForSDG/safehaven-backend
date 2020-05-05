@@ -5,15 +5,16 @@
  */
 
 export const magicTrimmer = (payload) => {
+  let load = payload;
   const data = {};
   if (payload) {
     Object.keys(payload).forEach((key) => {
       const value = payload[key];
       Object.assign(data, { [key]: value.trim() });
     });
-    payload = data;
+    load = data;
   }
-  return payload;
+  return load;
 };
 
 /**
@@ -39,9 +40,10 @@ export const inValidName = (name, value) => {
  * @returns {string} string is type of data thr function returns
  */
 export const inValidEmail = (email) => {
+  let userEmail = email;
   if (!email) return 'email is required';
-  email = email.toLowerCase();
-  if (!/^[A-Za-z0-9.-_]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/.test(email)) return 'email is not valid';
+  userEmail = email.toLowerCase();
+  if (!/^[A-Za-z0-9.-_]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/.test(userEmail)) return 'email is not valid';
   return null;
 };
 
