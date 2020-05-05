@@ -19,6 +19,7 @@ module.exports = {
     'comma-dangle': ['error', 'never'],
     'no-param-reassign': ['error', { props: false }],
     "no-unused-vars": ['error', { varsIgnorePattern: 'should|expect' }],
-    "no-console": ["error", { allow: ['warn', 'error', 'log'] }]
+    "no-console": ["error", { allow: ['warn', 'error', 'log'] }],
+    "consistent-return": 'off'
   }
 };
