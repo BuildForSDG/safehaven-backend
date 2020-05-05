@@ -190,28 +190,6 @@ const transfer = async (amount, recipient) => {
   }
 };
 
-const updateRecipient = async (name, email, reference_id) => {
-  try {
-    const options = {
-      method: 'PUT',
-      uri: `${apiUrl}/transferrecipient/${reference_id}`,
-      body: {
-        name,
-        email
-      },
-      headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`
-      },
-      json: true
-    };
-    const { data } = await rp(options);
-    return data.recipient_code;
-  } catch (e) {
-    console.log(e);
-    return 'error';
-  }
-};
-
 module.exports = {
   getBanks, verifyAccount, createRecipient, tokenize, charge, transfer, updateRecipient, sendOtp
 };

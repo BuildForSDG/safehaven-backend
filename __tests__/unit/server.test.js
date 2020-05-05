@@ -20,7 +20,7 @@ describe('App', () => {
 
   it('Should display - This route is unavailable on this serve for GET method', (done) => {
     chai.request(app)
-      .get('/api/v1/hjhjh')
+      .get('/api/v1/hjhjhjj')
       .end((err, res) => {
         expect(res.status).eql(404);
         expect(res.body).to.be.an('object');
@@ -44,7 +44,7 @@ describe('App', () => {
 
   it('Should display - This route is unavailable on this serve for PATCH method', (done) => {
     chai.request(app)
-      .patch('/api/v1/hjhjh')
+      .patch('/api/v1/hjhjhlll')
       .end((err, res) => {
         expect(res.status).eql(404);
         expect(res.body).to.be.an('object');
@@ -56,7 +56,7 @@ describe('App', () => {
 
   it('Should display - This route is unavailable on this serve for DELETE method', (done) => {
     chai.request(app)
-      .delete('/api/v1/hjhjh')
+      .delete('/api/v1/hjhjhooo')
       .end((err, res) => {
         expect(res.status).eql(404);
         expect(res.body).to.be.an('object');
