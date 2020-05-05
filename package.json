@@ -13,8 +13,8 @@
     "test": "__tests__"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test npm run db:migrate:undo && npm run db:migrate && nyc mocha --no-timeout './tests/index.js' --exit",
-    "test:report": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 './tests/index.js' --exit",
+    "test": "cross-env NODE_ENV=test npm run db:migrate:undo && npm run db:migrate && nyc mocha --no-timeout './__tests__/index.js' --exit",
+    "test:report": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 './__tests__/index.js' --exit",
     "lint": "eslint \"src/**/*.js\"",
     "dev": "nodemon --exec babel-node src/index.js",
     "start": "npm run build && node build/index.js",

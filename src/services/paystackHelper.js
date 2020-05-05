@@ -10,10 +10,10 @@ const getBanks = async () => {
     const options = {
       method: 'GET',
       uri: `${apiUrl}/bank`,
-      json: true,
+      json: true
     };
     const { data } = await rp(options);
-    const banks = data.map(x => ({ name: x.name, code: x.code }));
+    const banks = data.map((x) => ({ name: x.name, code: x.code }));
     return banks;
   } catch (e) {
     console.log(e.message);
@@ -27,13 +27,13 @@ const verifyAccount = async (accountNumber, code) => {
       uri: `${apiUrl}/bank/resolve`,
       qs: {
         account_number: accountNumber,
-        bank_code: code,
+        bank_code: code
       },
       headers: {
         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`,
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'no-cache'
       },
-      json: true,
+      json: true
     };
     const { data } = await rp(options);
     return data;
@@ -54,12 +54,12 @@ const createRecipient = async (type, name, description, account_number, bank_cod
         description,
         account_number,
         bank_code,
-        currency,
+        currency
       },
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`,
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`
       },
-      json: true,
+      json: true
     };
     const { data } = await rp(options);
     return data.recipient_code;
@@ -72,7 +72,7 @@ const createRecipient = async (type, name, description, account_number, bank_cod
 const tokenize = async (card, email) => {
   try {
     const {
-      cvv, expiry_month, expiry_year, number,
+      cvv, expiry_month, expiry_year, number
     } = card;
     const options = {
       method: 'POST',
@@ -82,14 +82,14 @@ const tokenize = async (card, email) => {
           cvv,
           expiry_month,
           expiry_year,
-          number,
+          number
         },
-        email,
+        email
       },
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`,
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`
       },
-      json: true,
+      json: true
     };
     const { data } = await rp(options);
     if (data) return data.authorization_code;
@@ -106,9 +106,9 @@ const charge = async (amount, email, authorization_code, name, pin) => {
         {
           value: 'MediaMall',
           display_name: `Wallet loading by ${name}`,
-          variable_name: `Wallet loading by ${name}`,
-        },
-      ],
+          variable_name: `Wallet loading by ${name}`
+        }
+      ]
     };
     const options = {
       method: 'POST',
@@ -118,36 +118,36 @@ const charge = async (amount, email, authorization_code, name, pin) => {
         amount: parseInt(amount, 10) * 100,
         metadata,
         pin,
-        authorization_code,
+        authorization_code
       },
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`,
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`
       },
-      json: true,
+      json: true
     };
     const { data } = await rp(options);
     console.log(data);
     console.log(`status -> ${data.status}`, `message -> ${data.message}`);
-    if (data) return { status: data.status, message: data.display_text, ref:data.reference || '' };
+    if (data) return { status: data.status, message: data.display_text, ref: data.reference || '' };
   } catch (e) {
     console.log(e.error);
     return { status: 'error', message: e.error.data.message };
   }
 };
- // submit otp sent to the user for completing a transaction
- const sendOtp = async (otp, reference) => {
+// submit otp sent to the user for completing a transaction
+const sendOtp = async (otp, reference) => {
   try {
     const options = {
       method: 'POST',
       uri: `${apiUrl}/charge/submit_otp`,
       body: {
-       otp,
-       reference
+        otp,
+        reference
       },
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`,
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`
       },
-      json: true,
+      json: true
     };
     const { data } = await rp(options);
     console.log(data);
@@ -172,12 +172,12 @@ const transfer = async (amount, recipient) => {
         source,
         reason,
         currency,
-        recipient,
+        recipient
       },
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`,
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`
       },
-      json: true,
+      json: true
     };
     const { data } = await rp(options);
     // console.log(data);
@@ -196,12 +196,12 @@ const updateRecipient = async (name, email, reference_id) => {
       uri: `${apiUrl}/transferrecipient/${reference_id}`,
       body: {
         name,
-        email,
+        email
       },
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`,
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_CODE}`
       },
-      json: true,
+      json: true
     };
     const { data } = await rp(options);
     return data.recipient_code;

@@ -8,8 +8,8 @@ export const options = {
   secure: true, // true for 465, false for other ports
   auth: {
     user: `${process.env.EMAIL_ID}`,
-    pass: `${process.env.EMAIL_PASS}`,
-  },
+    pass: `${process.env.EMAIL_PASS}`
+  }
 };
 
 export const transporter = nodemailer.createTransport(options);

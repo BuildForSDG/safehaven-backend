@@ -8,9 +8,9 @@ config();
 const GoogleStrategy = GooglePassport.Strategy;
 const FacebookStrategy = FacebookPassport.Strategy;
 
-const userProfile = profile => {
+const userProfile = (profile) => {
   const {
-    id, provider, photos, emails, displayName,
+    id, provider, photos, emails, displayName
   } = profile;
   let imageUrl = '';
   let email = '';
@@ -25,7 +25,7 @@ const userProfile = profile => {
     name: displayName,
     image: imageUrl,
     email,
-    provider,
+    provider
   };
 };
 
@@ -36,7 +36,7 @@ passport.use('google', new GoogleStrategy({
   callbackURL: process.env.GOOGLE_CALLBACK_URL,
   scope: ['profile', 'email', 'openid'],
   enableProof: true,
-  passReqToCallback: true,
+  passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, cb) => cb(null, userProfile(profile))));
 
 // Configure the Facebook strategy for use by Passport.js
@@ -47,5 +47,5 @@ passport.use('facebook', new FacebookStrategy({
   scope: ['email', 'public_profile'],
   enableProof: true,
   passReqToCallback: true,
-  profileFields: ['id', 'displayName', 'photos', 'email'],
+  profileFields: ['id', 'displayName', 'photos', 'email']
 }, (req, accessToken, refreshToken, profile, cb) => cb(null, userProfile(profile))));

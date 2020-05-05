@@ -9,7 +9,7 @@ const verifyGoogle = async (token) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+      audience: CLIENT_ID // Specify the CLIENT_ID of the app that accesses the backend
     });
     const payload = ticket.getPayload();
     const userid = payload.sub;
@@ -18,7 +18,7 @@ const verifyGoogle = async (token) => {
     const image = payload.picture;
     // eslint-disable-next-line prefer-object-spread
     const user = Object.assign({}, {
-      userid, email, name, image,
+      userid, email, name, image
     });
     return user;
   } catch (error) {
@@ -33,12 +33,12 @@ const verifyFacebook = async (accessToken) => {
     const options = {
       uri: 'https://graph.facebook.com/me?fields=name,email',
       qs: {
-        access_token: accessToken,
+        access_token: accessToken
       },
       headers: {
-        'User-Agent': 'Request-Promise',
+        'User-Agent': 'Request-Promise'
       },
-      json: true,
+      json: true
     };
     await rp(options)
       .then((res) => {
