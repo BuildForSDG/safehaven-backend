@@ -5,16 +5,16 @@
  */
 
 export const magicTrimmer = (payload) => {
-  let load = payload;
+  let loaded = payload;
   const data = {};
   if (payload) {
     Object.keys(payload).forEach((key) => {
       const value = payload[key];
       Object.assign(data, { [key]: value.trim() });
     });
-    load = data;
+    loaded = data;
   }
-  return load;
+  return loaded;
 };
 
 /**
