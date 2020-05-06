@@ -20,6 +20,7 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     "no-unused-vars": ['error', { varsIgnorePattern: 'should|expect' }],
     "no-console": ["error", { allow: ['warn', 'error', 'log'] }],
-    "consistent-return": 'off'
+    "consistent-return": 'off',
+    "func-names": ["error", "never"]
   }
 };
