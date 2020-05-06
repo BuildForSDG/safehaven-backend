@@ -1,6 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import uuid from 'uuid/v4';
-import faker from 'faker';
 import { hashPassword } from '../../utils/passwordHash';
 
 export default {
@@ -24,25 +22,6 @@ export default {
         updatedAt: Sequelize.literal('NOW()')
       }
     ];
-    for (let i = 0; i < 5; i += 1) {
-      const userData = {
-        uuid: uuid(),
-        firstName: faker.name.firstName,
-        surname: faker.name.lastName,
-        middleName: faker.name.firstName,
-        email: faker.internet.email,
-        phone: faker.phone.phoneNumber,
-        password: hashPassword('Password111'),
-        verified: true,
-        role: 'user',
-        gender: 'male',
-        nationality: faker.address.country,
-        address: faker.address.county,
-        createdAt: Sequelize.literal('NOW()'),
-        updatedAt: Sequelize.literal('NOW()')
-      };
-      UsersData.push(userData);
-    }
     return queryInterface.bulkInsert('Users', UsersData, {});
   },
   // eslint-disable-next-line arrow-parens

@@ -46,7 +46,7 @@ const AuthController = {
       if (!user.dataValues.verified) return sendErrorResponse(res, 401, 'Verify Your Account ');
       const createdToken = userToken(user.dataValues);
 
-      return sendSuccessResponse(res, 200, { token: createdToken });
+      return sendSuccessResponse(res, 200, createdToken);
     } catch (e) {
       return next(e);
     }
