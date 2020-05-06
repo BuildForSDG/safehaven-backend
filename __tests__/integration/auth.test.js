@@ -16,14 +16,18 @@ chai.use(chaiHttp);
 describe('User Auth', () => {
   const testUser = {
     uuid: 'b38fcf44-b77f-4149-8d66-454d7a5eacda',
-    name: 'Susan Abioye',
-    username: 'susan',
+    firstName: 'Ayooluwa',
+    surname: 'Olosunde',
+    middleName: 'lovisgod',
     email: 'susan.abioye@kodehauz.com',
     password: hashPassword('Password111'),
     phone: '07012221111',
     role: 'user',
     verified: true,
-    status: 'active',
+    gender: 'male',
+    dateOfBirth: '05/06/1994',
+    nationality: 'Nigerian',
+    address: 'No 34B Ewet, Housing Estate',
     createdAt: new Date(),
     updatedAt: new Date()
   };
@@ -34,7 +38,7 @@ describe('User Auth', () => {
   describe('User Login API', () => {
     it('Should sign in user with correct email and password', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v1/auth/login')
         .send({
           email: 'susan.abioye@kodehauz.com',
           password: 'Password111'
@@ -46,23 +50,9 @@ describe('User Auth', () => {
         });
     });
 
-    it('Should sign in user with correct username and password', (done) => {
-      chai.request(app)
-        .post('/api/v1/auth/signin')
-        .send({
-          username: 'susan',
-          password: 'Password111'
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.body.data).to.have.property('token');
-          done();
-        });
-    });
-
     it('Should not sign in unregistered user', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v1/auth/login')
         .send({
           email: 'rebecca.jerome@alp.com',
           password: 'Password1113'
@@ -74,24 +64,9 @@ describe('User Auth', () => {
         });
     });
 
-    it('Should not sign in an unverified user account', (done) => {
-      chai.request(app)
-        .post('/api/v1/auth/signin')
-        .send({
-          email: 'rebecca.jerome@kodehauz.com',
-          password: 'Password111'
-        })
-        .end((err, res) => {
-          expect(res.status).to.be.eql(401);
-          expect(res.body.status).to.eql('error');
-          expect(res.body).to.have.property('error');
-          done();
-        });
-    });
-
     it('Should not sign in a user with incorrect password', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v1/auth/login')
         .send({
           email: 'susan.abioye@kodehauz.com',
           password: 'Password'
