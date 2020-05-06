@@ -46,18 +46,6 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   User.associate = function (models) {
-    // associations can be defined here
-    // User.hasMany(models.Token, {
-    //   foreignKey: 'user_uuid',
-    //   as: 'tokens',
-    //   onDelete: 'CASADE'
-    // });
-
-    // User.hasMany(models.Profile, {
-    //   foreignKey: 'user_uuid',
-    //   as: 'profiles',
-    //   onDelete: 'CASADE'
-    // });
   };
   return User;
 };
