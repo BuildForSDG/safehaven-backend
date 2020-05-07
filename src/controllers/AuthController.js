@@ -14,12 +14,14 @@ const { User } = model;
 // returns a token for logged in user or during sign up
 const userToken = (user) => {
   const {
-    email, name, role, uuid
+    email, firstName, middleName, surname, role, uuid
   } = user;
   return {
     token: createToken({
       uuid,
-      name,
+      firstName,
+      middleName,
+      surname,
       email,
       role
     })
@@ -40,7 +42,7 @@ const AuthController = {
 
       // compare password
       const checkPassword = comparePassword(password, user.dataValues.password);
-      if (!checkPassword) return sendErrorResponse(res, 400, 'Incorrect Password');
+      if (!checkPassword) return sendErrorResponse(res, 400, 'Email or Password does not match');
 
       // check user verification
       if (!user.dataValues.verified) return sendErrorResponse(res, 401, 'Verify Your Account ');
