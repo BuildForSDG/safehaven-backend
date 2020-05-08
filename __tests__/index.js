@@ -6,3 +6,4 @@ import './unit/process-token.test';
 import './unit/mailer.test';
 
 // Integration test
+import './integration/auth.test';
