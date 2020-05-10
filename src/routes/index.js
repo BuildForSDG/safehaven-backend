@@ -10,7 +10,7 @@ export default (app) => {
     data: 'Welcome to safeHaven API'
   }));
 
-  app.use('/api/v1', [
+  app.use('/api/v1/auth', [
     auth
   ]);
 

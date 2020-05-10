@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -9,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
       },
+      surName: DataTypes.STRING,
       firstName: DataTypes.STRING,
-      surname: DataTypes.STRING,
-      middleName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
       email: {
         type: DataTypes.STRING,
         allowNull: {
@@ -39,8 +37,8 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       verified: DataTypes.BOOLEAN,
       role: {
-        type: DataTypes.ENUM('user', 'admin', 'consultant'),
-        defaultValue: 'user'
+        type: DataTypes.ENUM('patient', 'admin', 'consultant'),
+        defaultValue: 'patient'
       }
     },
     {}

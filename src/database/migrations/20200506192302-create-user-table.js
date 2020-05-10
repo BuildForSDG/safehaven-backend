@@ -7,15 +7,15 @@ module.exports = {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4
     },
+    surName: {
+      allowNull: false,
+      type: Sequelize.STRING
+    },
     firstName: {
       allowNull: false,
       type: Sequelize.STRING
     },
-    surname: {
-      allowNull: false,
-      type: Sequelize.STRING
-    },
-    middleName: {
+    lastName: {
       allowNull: true,
       type: Sequelize.STRING
     },
@@ -29,7 +29,7 @@ module.exports = {
       type: Sequelize.REAL
     },
     gender: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING
     },
     dateOfBirth: {
@@ -62,11 +62,11 @@ module.exports = {
     role: {
       type: Sequelize.ENUM,
       values: [
-        'user',
+        'patient',
         'admin',
         'consultant'
       ],
-      defaultValue: 'user'
+      defaultValue: 'patient'
     },
     createdAt: {
       allowNull: false,
