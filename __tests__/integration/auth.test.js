@@ -18,7 +18,7 @@ describe('User Auth', () => {
     uuid: 'b38fcf44-b77f-4149-8d66-454d7a5eacda',
     surName: 'Ayooluwa',
     firstName: 'Olosunde',
-    lastName: 'lovisgod',
+    middleName: 'lovisgod',
     email: 'susan.abioye@kodehauz.com',
     password: hashPassword('Password111'),
     phone: '07012221111',

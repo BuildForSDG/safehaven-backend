@@ -1,4 +1,3 @@
-import fs from 'fs';
 import { describe, it } from 'mocha';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
@@ -17,13 +16,13 @@ describe('User onboarding', () => {
         .post('/api/v1/auth/signup')
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
-        .field('lastName', 'Mason')
+        .field('middleName', 'Mason')
         .field('email', 'kk@kodehauz.com')
         .field('password', 'Passw1sdsds')
         .field('phone', '070122271191')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
-        .attach('file', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .field('gender', 'male')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.status).to.equal('success');
@@ -37,13 +36,13 @@ describe('User onboarding', () => {
         .post('/api/v1/auth/signup')
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
-        .field('lastName', 'Mason')
+        .field('middleName', 'Mason')
         .field('email', 'kkkodehauz.com')
         .field('password', 'Password111')
         .field('phone', '07013227111')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
-        .attach('file', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .field('gender', 'male')
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -58,13 +57,13 @@ describe('User onboarding', () => {
         .post('/api/v1/auth/signup')
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
-        .field('lastName', 'Mason')
+        .field('middleName', 'Mason')
         .field('email', 'kk@koajdehauz.com')
         .field('password', 'Passw1')
         .field('phone', '07012227111')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
-        .attach('file', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .field('gender', 'male')
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');

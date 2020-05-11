@@ -8,7 +8,7 @@ export default {
         uuid: '009e1cbe-c2cb-4b74-9601-336efbafef47',
         surName: 'Ayooluwa',
         firstName: 'Olosunde',
-        lastName: 'lovisgod',
+        middleName: 'lovisgod',
         email: 'olifedayo94@gmail.com',
         phone: '08165656988',
         password: hashPassword('Password111'),

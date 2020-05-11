@@ -11,14 +11,14 @@ const { User } = model;
 // returns a token for logged in user or during sign up
 const userToken = (user) => {
   const {
-    email, firstName, middleName, surname, role, uuid
+    email, firstName, middleName, surName, role, uuid
   } = user;
   return {
     token: createToken({
       uuid,
       firstName,
       middleName,
-      surname,
+      surName,
       email,
       role
     })
@@ -48,19 +48,13 @@ const AuthController = {
   async signup(req, res) {
     try {
       const {
-        firstName, surName, lastName, email, phone, conditions, role
+        firstName, surName, middleName, email, gender, phone, conditions, role
       } = req.body;
       let { password } = req.body;
       password = hashPassword(password);
 
-      if (!req.file) {
-        return sendSuccessResponse(res, 422, 'Please select an image file to upload');
-      }
-
-      const image = imageUploader(req.file);
-
       const user = {
-        firstName, surName, lastName, email, password, phone, conditions, image, role
+        firstName, surName, middleName, email, gender, password, phone, conditions, role
       };
       try {
         await User.create(user);
