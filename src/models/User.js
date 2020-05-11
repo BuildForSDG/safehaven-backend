@@ -27,7 +27,13 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
-      phone: DataTypes.REAL,
+      phone: {
+        type: DataTypes.REAL,
+        unique: {
+          args: true,
+          msg: 'Email Already Exist!!!'
+        }
+      },
       gender: DataTypes.STRING,
       dateOfBirth: DataTypes.STRING,
       nationality: DataTypes.STRING,
@@ -43,7 +49,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  User.associate = (models) => {
-  };
+  User.associate = (models) => models;
   return User;
 };

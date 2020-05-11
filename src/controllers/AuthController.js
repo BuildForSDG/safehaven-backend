@@ -1,10 +1,7 @@
-// import token from 'uuid';
 import model from '../models';
 import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
 import { hashPassword, comparePassword } from '../utils/passwordHash';
-// import { SendMail, sendForgotPasswordMail } from '../services/emailsender';
 import { createToken } from '../utils/processToken';
-import imageUploader from '../services/imageuploader';
 
 const { User } = model;
 
@@ -53,13 +50,14 @@ const AuthController = {
       let { password } = req.body;
       password = hashPassword(password);
 
-      const user = {
-        firstName, surName, middleName, email, gender, password, phone, conditions, role
-      };
       try {
+        const user = {
+          firstName, surName, middleName, email, gender, password, phone, conditions, role
+        };
         await User.create(user);
         return sendSuccessResponse(res, 200, 'User account succesfully created');
       } catch (e) {
+        console.log(e);
         return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
       }
     } catch (e) {
