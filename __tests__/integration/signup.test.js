@@ -8,7 +8,7 @@ const { User } = model;
 
 chai.use(chaiHttp);
 
-describe('User onboarding', () => {
+describe('User onboarding', async () => {
   after(async () => User.destroy({ where: {}, force: true }));
   describe('User can signup as patient or consultant', () => {
     it('Should be able to sign up with correct input format', (done) => {
@@ -17,8 +17,8 @@ describe('User onboarding', () => {
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
-        .field('email', 'kk@kodehauz.com')
-        .field('password', 'Passw1sdsds')
+        .field('email', 'kk@kodehauqz.com')
+        .field('password', 'Pas1sdsds')
         .field('phone', '070122271191')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
@@ -31,6 +31,49 @@ describe('User onboarding', () => {
         });
     });
 
+    it('Should not be able to sign up with existing phone number', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .field('surName', 'Olaf')
+        .field('firstName', 'Jeremy')
+        .field('middleName', 'Mason')
+        .field('email', 'kk@kodehauze.com')
+        .field('password', 'Passw1sdsds')
+        .field('phone', '070122271191')
+        .field('role', 'patient')
+        .field('conditions', 'alzemhier, alopaciar, night blindness')
+        .field('gender', 'male')
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.eql('error');
+          expect(res.body.error.msg).to.eql('Phone already in use');
+          expect(res.body.error.param).to.eql('phone');
+          done();
+        });
+    });
+
+
+    it('Should not be able to sign up with existing email', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .field('surName', 'Olaf')
+        .field('firstName', 'Jeremy')
+        .field('middleName', 'Mason')
+        .field('email', 'kk@kodehauqz.com')
+        .field('password', 'Passw1sdsds')
+        .field('phone', '070122911912')
+        .field('role', 'patient')
+        .field('conditions', 'alzemhier, alopaciar, night blindness')
+        .field('gender', 'male')
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.eql('error');
+          expect(res.body.error.msg).to.eql('E-mail already in use');
+          expect(res.body.error.param).to.eql('email');
+          done();
+        });
+    });
+
     it('Should be prompted to input correct email format on incorrect email format', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
@@ -39,7 +82,7 @@ describe('User onboarding', () => {
         .field('middleName', 'Mason')
         .field('email', 'kkkodehauz.com')
         .field('password', 'Password111')
-        .field('phone', '07013227111')
+        .field('phone', '07013229811')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
@@ -58,9 +101,9 @@ describe('User onboarding', () => {
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
-        .field('email', 'kk@koajdehauz.com')
+        .field('email', 'kk@koajwdehauz.com')
         .field('password', 'Passw1')
-        .field('phone', '07012227111')
+        .field('phone', '070122297111')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
