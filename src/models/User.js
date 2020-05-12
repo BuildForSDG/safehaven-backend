@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -9,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
       },
+      surName: DataTypes.STRING,
       firstName: DataTypes.STRING,
-      surname: DataTypes.STRING,
       middleName: DataTypes.STRING,
       email: {
         type: DataTypes.STRING,
@@ -29,7 +27,13 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
-      phone: DataTypes.REAL,
+      phone: {
+        type: DataTypes.REAL,
+        unique: {
+          args: true,
+          msg: 'Email Already Exist!!!'
+        }
+      },
       gender: DataTypes.STRING,
       dateOfBirth: DataTypes.STRING,
       nationality: DataTypes.STRING,
@@ -39,13 +43,12 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       verified: DataTypes.BOOLEAN,
       role: {
-        type: DataTypes.ENUM('user', 'admin', 'consultant'),
-        defaultValue: 'user'
+        type: DataTypes.ENUM('patient', 'admin', 'consultant'),
+        defaultValue: 'patient'
       }
     },
     {}
   );
-  User.associate = (models) => {
-  };
+  User.associate = (models) => models;
   return User;
 };

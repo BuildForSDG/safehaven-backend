@@ -16,13 +16,13 @@ chai.use(chaiHttp);
 describe('User Auth', () => {
   const testUser = {
     uuid: 'b38fcf44-b77f-4149-8d66-454d7a5eacda',
-    firstName: 'Ayooluwa',
-    surname: 'Olosunde',
+    surName: 'Ayooluwa',
+    firstName: 'Olosunde',
     middleName: 'lovisgod',
     email: 'susan.abioye@kodehauz.com',
     password: hashPassword('Password111'),
     phone: '07012221111',
-    role: 'user',
+    role: 'patient',
     verified: true,
     gender: 'male',
     dateOfBirth: '05/06/1994',

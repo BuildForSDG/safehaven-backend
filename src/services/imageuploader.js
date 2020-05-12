@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import cloudinary from 'cloudinary';
 import uuid from 'uuid';
 import path from 'path';
@@ -9,13 +8,13 @@ require('../config/cloudinaryconfig');
 
 const duri = new Datauri();
 
-const uploadimage = async (file, public_id = {}) => {
+const uploadimage = async (file, publicId = {}) => {
   upload.single('file');
   const dataUri = duri.format(path.extname(file.originalname).toString(), file.buffer);
   const { content } = dataUri;
 
   const result = await cloudinary.v2.uploader.upload(content, {
-    public_id: public_id === {} ? `safehaven/${public_id}` : `safehaven/${uuid()}`
+    public_id: publicId === {} ? `safehaven/${publicId}` : `safehaven/${uuid()}`
   });
   return result.secure_url;
 };

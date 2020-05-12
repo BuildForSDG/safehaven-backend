@@ -6,14 +6,14 @@ export default {
     const UsersData = [
       {
         uuid: '009e1cbe-c2cb-4b74-9601-336efbafef47',
-        firstName: 'Ayooluwa',
-        surname: 'Olosunde',
+        surName: 'Ayooluwa',
+        firstName: 'Olosunde',
         middleName: 'lovisgod',
         email: 'olifedayo94@gmail.com',
         phone: '08165656988',
         password: hashPassword('Password111'),
         verified: true,
-        role: 'user',
+        role: 'patient',
         gender: 'male',
         dateOfBirth: '05/06/1994',
         nationality: 'Nigerian',
