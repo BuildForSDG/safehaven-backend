@@ -1,7 +1,8 @@
 import model from '../models';
 import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
 import { hashPassword, comparePassword } from '../utils/passwordHash';
-import { createToken } from '../utils/processToken';
+import { createToken, verifyToken } from '../utils/processToken';
+import { SendMail } from '../services/emailsender';
 
 const { User } = model;
 
@@ -55,11 +56,43 @@ const AuthController = {
           firstName, surName, middleName, email, gender, password, phone, conditions, role
         };
         await User.create(user);
+        const emailToken = createToken({ email });
+        await SendMail(email, emailToken);
         return sendSuccessResponse(res, 200, 'User account succesfully created');
       } catch (e) {
         console.log(e);
         return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
       }
+    } catch (e) {
+      return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
+    }
+  },
+  async verifyUser(req, res) {
+    try {
+      // extracting the token and id from the query
+      const { token, email } = req.params;
+
+      // verify if the token exist
+      const payload = await verifyToken(token);
+      if (!payload.email) return sendErrorResponse(res, 401, 'Token not valid');
+
+      // check if user exist
+      const user = await User.findOne({ where: { email } });
+      if (!user) return sendErrorResponse(res, 401, 'User is not available');
+      if (user.dataValues.verified === true) return sendErrorResponse(res, 409, 'User is Already Verified!!!');
+
+      // if it passes all the validation
+      await user.update(
+        {
+          verified: true
+        },
+        {
+          where: {
+            email
+          }
+        }
+      );
+      return sendSuccessResponse(res, 200, 'Your account has been verified successfully');
     } catch (e) {
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }

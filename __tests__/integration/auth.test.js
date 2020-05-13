@@ -78,4 +78,16 @@ describe('User Auth', () => {
         });
     });
   });
+
+  describe('User verify API', () => {
+    it('Should not verify incorrect token', (done) => {
+      chai.request(app)
+        .get('/api/v1/auth/verification/jkkdfjkdkfjkakjfkdfkdkfkdjfkfkdjfkdkfkjdkfjkfj.jdkf/email@email.com')
+        .end((err, res) => {
+          expect(res.status).to.equal(500);
+          expect(res.body.status).to.eql('error');
+          done();
+        });
+    });
+  });
 });

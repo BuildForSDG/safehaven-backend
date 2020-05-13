@@ -1,16 +1,16 @@
 /* eslint-disable consistent-return */
-import { transporter } from '../config/nodemailer-config';
+import { transporter, gmailTransporter } from '../config/nodemailer-config';
 
-const SendMail = (to, token, id) => {
+const SendMail = (to, token) => {
   const hostUrl = 'https://safehaven.herokuapp.com';
   const mailOptions = {
-    from: 'admin@jointtaskfoundation.com',
+    from: 'ayooluwa.olosunde@gmail.com',
     to,
-    subject: 'Welcome To Joint Task Foundation',
-    text: `Hi, \n\nThank You For Joining SafeHaven \nClick on this link to verify your email ${hostUrl}/api/v1/auth/verification/${token}/${to}/${id}`
+    subject: 'Welcome To SafeHaven',
+    text: `Hi, \n\nThank You For Joining SafeHaven \nClick on this link to verify your email ${hostUrl}/api/v1/auth/verification/${token}/${to}`
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  gmailTransporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
       return 'error sending verification';
