@@ -2,6 +2,8 @@ barebones setup for JavaScript / Node projects replace this with a one-liner phr
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/756a656cfadd4c28a62db664e65bf927)](https://app.codacy.com/gh/BuildForSDG/safehaven-backend?utm_source=github.com&utm_medium=referral&utm_content=BuildForSDG/safehaven-backend&utm_campaign=Badge_Grade_Settings)
 
+[![Coverage Status](https://coveralls.io/repos/github/BuildForSDG/safehaven-backend/badge.svg?branch=chore-ci/cd)](https://coveralls.io/github/BuildForSDG/safehaven-backend?branch=chore-ci/cd)
+
 
 ## About
 
