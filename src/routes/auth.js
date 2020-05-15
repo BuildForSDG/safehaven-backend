@@ -8,5 +8,6 @@ const userRouter = express.Router();
 
 userRouter.post('/login', validator.login, validateRequest, AuthController.signin);
 userRouter.post('/signup', validator.userSignup, validateRequest, AuthController.signup);
+userRouter.get('/verification/:token/:email', AuthController.verifyUser);
 
 export default userRouter;

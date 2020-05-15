@@ -1,16 +1,73 @@
 /* eslint-disable consistent-return */
-import { transporter } from '../config/nodemailer-config';
+import dotEnv from 'dotenv';
+import { transporter, gmailTransporter } from '../config/nodemailer-config';
 
-const SendMail = (to, token, id) => {
-  const hostUrl = 'https://safehaven.herokuapp.com';
+dotEnv.config();
+const verificationEmail = (link) => `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>safehaven</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        .container {
+            width: 70%;
+            padding: 2%;
+            text-align: center;
+            margin: 1rem auto;
+            background: #000;
+            color: #fff;
+            border-radius: 2rem;
+            font-weight: bold;
+        }
+        a {
+            display: block;
+            background-color: #00BF00;
+            padding: 2%;
+            width: 50%;
+            margin: 3rem auto;
+            font-size: 1.5rem;
+        }
+        p {
+            margin-bottom: 2rem;
+        }
+        .enquiry {
+            padding-top: 1rem;
+            border-top: solid 1px #fff;
+            width: 70%;
+            margin: auto;
+        }
+        .heading {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="heading">We are very excited to begin this journey with you!</p>
+        <p>Kindly verify your email by clickiing the link below.</p>
+        <a style="color:#ffffff; text-decoration: none;" href='${link}'>Verify</a>
+        <p class="enquiry">Send a mail to <b>support@safehaven.com</b> for enquiries</p>
+        <img src="https://res.cloudinary.com/aoimageupload/image/upload/v1589449968/White_Logo_1.svg" alt="logo" />
+    </div>
+</body>
+</html>`;
+
+const SendMail = (to, token) => {
+  const hostUrl = `${process.env.HOST_URL}`;
   const mailOptions = {
-    from: 'admin@jointtaskfoundation.com',
+    from: 'ayooluwa.olosunde@gmail.com',
     to,
-    subject: 'Welcome To Joint Task Foundation',
-    text: `Hi, \n\nThank You For Joining SafeHaven \nClick on this link to verify your email ${hostUrl}/api/v1/auth/verification/${token}/${to}/${id}`
+    subject: 'Welcome To SafeHaven',
+    html: verificationEmail(`${hostUrl}/api/v1/auth/verification/${token}/${to}`)
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  gmailTransporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
       return 'error sending verification';

@@ -12,4 +12,13 @@ export const options = {
   }
 };
 
+export const gmailOptions = {
+  service: 'gmail',
+  auth: {
+    user: `${process.env.GMAIL_USERNAME}`,
+    pass: `${process.env.GMAIL_PASSWORD}`
+  }
+};
+
 export const transporter = nodemailer.createTransport(options);
+export const gmailTransporter = nodemailer.createTransport(gmailOptions);
