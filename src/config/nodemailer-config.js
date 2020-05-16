@@ -17,10 +17,6 @@ export const gmailOptions = {
   auth: {
     user: `${process.env.GMAIL_USERNAME}`,
     pass: `${process.env.GMAIL_PASSWORD}`
-  },
-  tls: {
-    // do not fail on invalid certs
-    rejectUnauthorized: false
   }
 };
 

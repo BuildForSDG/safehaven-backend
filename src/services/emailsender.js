@@ -61,7 +61,7 @@ const verificationEmail = (link) => `<!DOCTYPE html>
 const SendMail = (to, token) => {
   const hostUrl = `${process.env.HOST_URL}`;
   const mailOptions = {
-    from: 'ayooluwa.olosunde@gmail.com',
+    from: 'olifedayo94@gmail.com',
     to,
     subject: 'Welcome To SafeHaven',
     html: verificationEmail(`${hostUrl}/api/v1/auth/verification/${token}/${to}`)
