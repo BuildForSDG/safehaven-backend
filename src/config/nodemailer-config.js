@@ -27,5 +27,5 @@ export const gmailOptions = {
 
 export const transporter = nodemailer.createTransport(options);
 export const gmailTransporter = nodemailer.createTransport(gmailOptions);
-export const connection = SMTPConnection(gmailOptions);
+export const connection = new SMTPConnection(gmailOptions);
 // connection.auth()
