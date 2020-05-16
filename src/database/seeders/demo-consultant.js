@@ -12,7 +12,5 @@ export default {
     ];
     return queryInterface.bulkInsert('Consultant', UsersData, {});
   },
-  async down(queryInterface) {
-    queryInterface.bulkDelete('Consultant', null, {});
-  }
+  down: async (queryInterface) => queryInterface.bulkDelete('Consultant', null, {})
 };
