@@ -44,7 +44,6 @@ const AuthController = {
     }
   },
   async signup(req, res) {
-    console.log('getting here');
     try {
       const {
         firstName, surName, middleName, email, gender, phone, conditions, role
@@ -57,7 +56,6 @@ const AuthController = {
           firstName, surName, middleName, email, gender, password, phone, conditions, role
         };
         await User.create(user);
-        console.log('getting here too');
         const emailToken = createToken({ email });
         await SendMail(email, emailToken);
         return sendSuccessResponse(res, 200, 'User account successfully created');
@@ -71,7 +69,6 @@ const AuthController = {
   },
   async verifyUser(req, res) {
     try {
-      console.log('getting here');
       // extracting the token and id from the query
       const { token, email } = req.params;
 
@@ -95,7 +92,6 @@ const AuthController = {
           }
         }
       );
-      console.log('getting here too');
       return sendSuccessResponse(res, 200, 'Your account has been verified successfully');
     } catch (e) {
       console.log(e);
