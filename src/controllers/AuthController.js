@@ -98,6 +98,7 @@ const AuthController = {
       console.log('getting here too');
       return sendSuccessResponse(res, 200, 'Your account has been verified successfully');
     } catch (e) {
+      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   }
