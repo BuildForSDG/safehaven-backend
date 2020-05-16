@@ -83,14 +83,15 @@ const AuthController = {
         const user = {
           firstName, surName, email, gender, password, phone
         };
+        user.avatar = await imageUploader('validIdCard', req.files.avatar);
         const emailToken = createToken({ email });
         const consultant = { role: 'consultant' };
         consultant.specialization = specialization;
         consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
         consultant.validIdCard = await imageUploader('validCertificate', req.files.validCertificate);
 
-        await User.create(user);
         await Consultant.create(consultant);
+        await User.create(user);
         await SendMail(email, emailToken);
         return sendSuccessResponse(res, 200, 'User account succesfully created');
       } catch (e) {

@@ -1,6 +1,6 @@
 
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Consultant', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Consultants', {
     uuid: {
       allowNull: false,
       primaryKey: true,
@@ -30,5 +30,5 @@ module.exports = {
   }),
 
   // eslint-disable-next-line no-unused-vars
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Consultant')
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Consultants')
 };

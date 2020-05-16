@@ -5,12 +5,16 @@ import chaiHttp from 'chai-http';
 import app from '../../src';
 import model from '../../src/models';
 
-const { User } = model;
+const { User, Consultant } = model;
 
 chai.use(chaiHttp);
 
 describe('Consultant onboarding', async () => {
-  after(async () => User.destroy({ where: {}, force: true }));
+  before(async () => {
+    User.destroy({ where: {}, force: true });
+    Consultant.destroy({ where: {}, force: true });
+  });
+
   describe('User can signup as patient or consultant', () => {
     it('Should be able to sign up with correct input format', (done) => {
       chai.request(app)
@@ -24,6 +28,7 @@ describe('Consultant onboarding', async () => {
         .field('gender', 'male')
         .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.status).to.equal('success');
@@ -44,6 +49,7 @@ describe('Consultant onboarding', async () => {
         .field('gender', 'male')
         .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -66,6 +72,7 @@ describe('Consultant onboarding', async () => {
         .field('gender', 'male')
         .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -88,6 +95,7 @@ describe('Consultant onboarding', async () => {
         .field('gender', 'male')
         .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -110,6 +118,7 @@ describe('Consultant onboarding', async () => {
         .field('gender', 'male')
         .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');

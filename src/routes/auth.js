@@ -7,9 +7,9 @@ import imageUpload from '../middlewares/imageUpload';
 
 const userRouter = express.Router();
 
-userRouter.post('/login', validator.login, validateRequest, AuthController.signin);
-userRouter.post('/signup-patient', validator.patientSignup, validateRequest, AuthController.signupPatient);
+userRouter.post('/login', imageUpload.none, validator.login, validateRequest, AuthController.signin);
+userRouter.post('/signup-patient', imageUpload.none, validator.patientSignup, validateRequest, AuthController.signupPatient);
 userRouter.post('/signup-consultant', imageUpload.consultantSignup, validator.consultantSignup, validateRequest, AuthController.signupConsultant);
-userRouter.get('/verification/:token/:email', AuthController.verifyUser);
+userRouter.get('/verification/:token/:email', imageUpload.none, AuthController.verifyUser);
 
 export default userRouter;

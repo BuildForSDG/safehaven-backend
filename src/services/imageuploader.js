@@ -10,8 +10,6 @@ const duri = new Datauri();
 
 const uploadimage = async (field, uploadFile, publicId = {}) => {
   const file = uploadFile[0];
-  console.log(field, 'field');
-  console.log(file);
   upload.single(field);
   const dataUri = duri.format(path.extname(file.originalname).toString(), file.buffer);
   const { content } = dataUri;
