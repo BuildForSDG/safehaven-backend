@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Consultants', {
@@ -30,7 +30,5 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Consultants');
-  }
+  down: (queryInterface) => queryInterface.dropTable('Consultants')
 };
