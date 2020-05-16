@@ -1,8 +1,6 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
-const SMTPConnection = require('nodemailer/lib/smtp-connection');
-
 
 dotenv.config();
 export const options = {
@@ -27,5 +25,3 @@ export const gmailOptions = {
 
 export const transporter = nodemailer.createTransport(options);
 export const gmailTransporter = nodemailer.createTransport(gmailOptions);
-export const connection = new SMTPConnection(gmailOptions);
-// connection.auth()
