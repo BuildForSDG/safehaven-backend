@@ -1,13 +1,13 @@
 import express from 'express';
-import multer from 'multer';
+// import multer from 'multer';
 import cors from 'cors';
 import route from './routes';
 
-const upload = multer();
+// const upload = multer();
 
 const app = express();
 app.use(cors());
-app.use(upload.single('file'));
+// app.use(upload.array('file', 10));
 
 route(app);
 console.log(app.get('env'));
