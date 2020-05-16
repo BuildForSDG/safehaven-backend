@@ -1,6 +1,9 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
+const SMTPConnection = require('nodemailer/lib/smtp-connection');
+
+
 dotenv.config();
 export const options = {
   host: `${process.env.EMAIL_HOST}`,
@@ -13,7 +16,9 @@ export const options = {
 };
 
 export const gmailOptions = {
-  service: 'gmail',
+  host: 'smtp.gmail.com  ',
+  port: '465',
+  secure: true,
   auth: {
     user: `${process.env.GMAIL_USERNAME}`,
     pass: `${process.env.GMAIL_PASSWORD}`
@@ -22,3 +27,5 @@ export const gmailOptions = {
 
 export const transporter = nodemailer.createTransport(options);
 export const gmailTransporter = nodemailer.createTransport(gmailOptions);
+export const connection = SMTPConnection(gmailOptions);
+// connection.auth()
