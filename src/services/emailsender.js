@@ -1,6 +1,9 @@
 /* eslint-disable consistent-return */
 import dotEnv from 'dotenv';
+import sgMail from '@sendgrid/mail';
 import { transporter, gmailTransporter } from '../config/nodemailer-config';
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 dotEnv.config();
 const verificationEmail = (link) => `<!DOCTYPE html>
@@ -67,13 +70,21 @@ const SendMail = (to, token) => {
     html: verificationEmail(`${hostUrl}/api/v1/auth/verification/${token}/${to}`)
   };
 
-  gmailTransporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      return 'error sending verification';
-    }
-    console.log(`Email sent: ${info.response}`);
-  });
+  // gmailTransporter.sendMail(mailOptions, (error, info) => {
+  //   if (error) {
+  //     console.log(error);
+  //     return 'error sending verification';
+  //   }
+  //   console.log(`Email sent: ${info.response}`);
+  // });
+  sgMail.send(mailOptions)
+    .then(() => {}, (error) => {
+      console.error(error);
+
+      if (error.response) {
+        console.error(error.response.body);
+      }
+    });
 };
 
 const sendForgotPasswordMail = (to, token, id) => {

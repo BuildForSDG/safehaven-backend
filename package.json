@@ -48,6 +48,7 @@
     "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
+    "@sendgrid/mail": "^7.1.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.14.0",
     "cors": "^2.8.5",
@@ -75,6 +76,7 @@
     "sequelize-cli": "^5.5.0",
     "sequelize-hierarchy": "^2.0.4",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^2.0.2",
     "unified": "^9.0.0",
     "uuid": "^3.3.3"
   },

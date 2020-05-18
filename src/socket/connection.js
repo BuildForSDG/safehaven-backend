@@ -4,11 +4,11 @@ export default async function (socket, io, user) {
   // a user joins a room onces
   socket.on('make-connection', async (data) => {
     try {
-      const { otherUuid } = data;
+      const { consultantUuid } = data;
       // check if the user has connection with the other user or create a new one
-      const connection = await helperMethods.createConnection(user.uuid, otherUuid);
+      const connection = await helperMethods.createConnection(user.uuid, consultantUuid);
       await socket.join(connection.uuid, () => {
-        io.to(socket.id).emit('connection', { connection });
+        io.to(socket.id).emit('conversation', { connection });
         socket.on(`${connection.uuid}-message`, async (chat) => {
           const {
             message, parentUuid, file, senderName

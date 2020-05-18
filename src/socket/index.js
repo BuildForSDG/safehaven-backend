@@ -19,6 +19,7 @@ export default (io) => {
         const header = handshake.headers.token;
         if (header) {
           user = await SocketAuth(header, socket, io);
+          console.log(user);
         }
       }
       // handle other processes here
