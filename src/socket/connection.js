@@ -4,9 +4,20 @@ export default async function (socket, io, user) {
   // a user joins a room onces
   socket.on('make-connection', async (data) => {
     try {
-      const { consultantUuid } = data;
+      const { otherUuid } = data;
+      let consultantUuid;
+      let userUuid;
+      if (user.role === 'patient') {
+        userUuid = user.uuid;
+        consultantUuid = otherUuid;
+      }
+
+      if (user.role === 'consultant') {
+        userUuid = otherUuid;
+        consultantUuid = user.uuid;
+      }
       // check if the user has connection with the other user or create a new one
-      const connection = await helperMethods.createConnection(user.uuid, consultantUuid);
+      const connection = await helperMethods.createConnection(userUuid, consultantUuid);
       await socket.join(connection.uuid, () => {
         io.to(socket.id).emit('conversation', { connection });
         socket.on(`${connection.uuid}-message`, async (chat) => {
