@@ -8,9 +8,9 @@ const { User } = model;
 
 chai.use(chaiHttp);
 
-describe('User onboarding', async () => {
+describe('Patient onboarding', async () => {
   after(async () => User.destroy({ where: {}, force: true }));
-  describe('User can signup as patient or consultant', () => {
+  describe('User can signup as patient', () => {
     it('Should be able to sign up with correct input format', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup-patient')

@@ -3,11 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import route from './routes';
 
-// const upload = multer();
-
 const app = express();
 app.use(cors());
-// app.use(upload.array('file', 10));
 
 route(app);
 console.log(app.get('env'));

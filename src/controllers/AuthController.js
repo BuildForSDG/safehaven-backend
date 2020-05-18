@@ -95,7 +95,6 @@ const AuthController = {
         await SendMail(email, emailToken);
         return sendSuccessResponse(res, 200, 'User account succesfully created');
       } catch (e) {
-        console.log(e);
         return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
       }
     } catch (e) {
