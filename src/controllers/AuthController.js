@@ -3,8 +3,9 @@ import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
 import { hashPassword, comparePassword } from '../utils/passwordHash';
 import { createToken, verifyToken } from '../utils/processToken';
 import { SendMail } from '../services/emailsender';
+import imageUploader from '../services/imageuploader';
 
-const { User } = model;
+const { User, Consultant } = model;
 
 // returns a token for logged in user or during sign up
 const userToken = (user) => {
@@ -43,7 +44,8 @@ const AuthController = {
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
-  async signup(req, res) {
+
+  async signupPatient(req, res) {
     try {
       const {
         firstName, surName, middleName, email, gender, phone, conditions, role
@@ -60,18 +62,50 @@ const AuthController = {
         await SendMail(email, emailToken);
         return sendSuccessResponse(res, 200, 'User account succesfully created');
       } catch (e) {
-        console.log(e);
         return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
       }
     } catch (e) {
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
+
+  async signupConsultant(req, res) {
+    if (!(req.files.validIdCard && req.files.validCertificate)) {
+      return sendErrorResponse(res, 422, 'Please select certificate and id card to upload');
+    }
+
+    try {
+      const {
+        firstName, surName, email, gender, phone, specialization
+      } = req.body;
+      const password = hashPassword(req.body.password);
+      try {
+        const user = {
+          firstName, surName, email, gender, password, phone
+        };
+        user.avatar = await imageUploader('validIdCard', req.files.avatar);
+        const emailToken = createToken({ email });
+        const consultant = { role: 'consultant' };
+        consultant.specialization = specialization;
+        consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
+        consultant.validIdCard = await imageUploader('validCertificate', req.files.validCertificate);
+
+        await Consultant.create(consultant);
+        await User.create(user);
+        await SendMail(email, emailToken);
+        return sendSuccessResponse(res, 200, 'User account succesfully created');
+      } catch (e) {
+        return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
+      }
+    } catch (e) {
+      return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
+    }
+  },
+
   async verifyUser(req, res) {
     try {
       // extracting the token and id from the query
       const { token, email } = req.params;
-
       // verify if the token exist
       const payload = await verifyToken(token);
       if (!payload.email) return sendErrorResponse(res, 401, 'Token not valid');
