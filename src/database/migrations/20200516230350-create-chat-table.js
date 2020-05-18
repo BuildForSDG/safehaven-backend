@@ -16,7 +16,7 @@ module.exports = {
       type: Sequelize.UUID
     },
     parent_uuid: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.UUID
     },
     message: {

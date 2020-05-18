@@ -103,12 +103,16 @@ const helperMethods = {
   async createConnection(patientUuid, consultantUuid) {
     const connectionUuid = await Connection.findOrCreate({
       patient_uuid: patientUuid,
-      consultant_uuid: consultantUuid
+      consultant_uuid: consultantUuid,
+      where: {
+        patient_uuid: patientUuid,
+        consultant_uuid: consultantUuid
+      }
     });
     const chats = await Chat.findAll({
-      where: { connection_uuid: connectionUuid }
+      where: { connection_uuid: connectionUuid[0].dataValues.uuid }
     });
-    return { uuid: connectionUuid, chats };
+    return { uuid: connectionUuid[0].dataValues.uuid, chats };
   },
 
   async saveChats(data) {

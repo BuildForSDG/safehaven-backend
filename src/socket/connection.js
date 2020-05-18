@@ -21,7 +21,7 @@ export default async function (socket, io, user) {
             user_uuid: user.uuid,
             connection_uuid: connection.uuid
           });
-          await io.to(connection.uuid).emit('connection-chat', { chatReturned });
+          await io.to(connection.uuid).emit('conversation', { chatReturned });
         });
       });
     } catch (error) {
