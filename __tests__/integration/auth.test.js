@@ -32,6 +32,7 @@ describe('User Auth', () => {
     updatedAt: new Date()
   };
 
+  before(async () => User.destroy({ where: {}, force: true }));
   before(async () => { await User.create(testUser); });
   after(async () => User.destroy({ where: {}, force: true }));
 

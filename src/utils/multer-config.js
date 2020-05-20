@@ -5,7 +5,7 @@ export default multer({
     fileSize: 1000000
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpeg|jpg)$/)) {
+    if (!file.originalname.match(/\.(png|jpeg|jpg|pdf)$/)) {
       return cb(new Error('Please upload a valid file type'));
     }
     cb(undefined, true);

@@ -7,7 +7,7 @@ import authValidator from '../database/input-validator/auth';
 
 const validator = {};
 
-validator.userSignup = [
+validator.patientSignup = [
   body('firstName').not().isEmpty().isLength({ min: 2 }),
   body('surName').not().isEmpty().isLength({ min: 2 }),
   body('middleName'),
@@ -24,6 +24,30 @@ validator.userSignup = [
         }
       })),
   body('email').isEmail()
+    .custom((email) => authValidator.emailIsUnique(email)
+      .then((emailIsUnique) => {
+        if (emailIsUnique) {
+          return Promise.reject(Error('E-mail already in use'));
+        }
+      }))
+];
+
+validator.consultantSignup = [
+  body('firstName').not().isEmpty().isLength({ min: 2 }),
+  body('surName').not().isEmpty().isLength({ min: 2 }),
+  body('password').not().isEmpty().isLength({ min: 8 }),
+  body('gender').isIn('male', 'female', 'not specified'),
+  body('role', 'invalid user role').isIn('patient', 'admin', 'consultant'),
+  body('specialization').not().isEmpty(),
+  body('phone').not().isEmpty().isLength({ min: 8 })
+    .isNumeric()
+    .custom((phone) => authValidator.numberIsUnique(phone)
+      .then((numberIsUnique) => {
+        if (numberIsUnique) {
+          return Promise.reject(Error('Phone already in use'));
+        }
+      })),
+  body('email').normalizeEmail().isEmail()
     .custom((email) => authValidator.emailIsUnique(email)
       .then((emailIsUnique) => {
         if (emailIsUnique) {

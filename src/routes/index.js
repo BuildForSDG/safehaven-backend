@@ -19,8 +19,7 @@ export default (app) => {
     error: 'This route is unavailable on this server'
   }));
 
-  // eslint-disable-next-line no-unused-vars
-  app.use((error, req, res, next) => {
+  app.use((error, req, res) => {
     // don't print stack traces in production environment
     if (app.get('env') !== 'production') console.log(error.stack);
     res.status(error.status || 500);
