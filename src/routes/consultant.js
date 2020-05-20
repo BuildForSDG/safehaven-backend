@@ -7,5 +7,5 @@ import imageUpload from '../middlewares/imageUpload';
 const consultantRouter = express.Router();
 
 consultantRouter.post('/select-available-time', imageUpload.none, Auth, checkConsultant, ConsultantController.SubmitAvailableTime);
-
+consultantRouter.get('/available-time', Auth, ConsultantController.getConsultantAvailableDays);
 export default consultantRouter;
