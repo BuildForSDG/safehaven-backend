@@ -12,7 +12,6 @@ const socketAuth = async (token, socket, io) => {
       attributes: {
         exclude: ['password']
       }
-      // include: ['token'],
     });
     if (!user) io.to(socket.id).emit('login_error', { message: 'User not found please sign up' });
     return user.dataValues;

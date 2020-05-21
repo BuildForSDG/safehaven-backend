@@ -1,5 +1,6 @@
 import express from 'express';
 import auth from './auth';
+import consultant from './consultant';
 
 export default (app) => {
   app.use(express.json());
@@ -10,8 +11,8 @@ export default (app) => {
     data: 'Welcome to safeHaven API'
   }));
 
-  app.use('/api/v1/auth', [
-    auth
+  app.use('/api/v1', [
+    auth, consultant
   ]);
 
   app.all('/*', (req, res) => res.status(404).send({

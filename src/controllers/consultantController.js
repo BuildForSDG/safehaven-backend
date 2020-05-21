@@ -10,10 +10,10 @@ const ConsultantController = {
       const { uuid } = req.userData;
       const { availableTime } = req.body;
       const dataToSave = await availableTime.map((x) => ({
-        consultantUuid: uuid,
-        availableTime: x
+        consultant_uuid: uuid,
+        available_time: x
       }));
-      await AvailableTime.bulkCreate(dataToSave, { returning: true });
+      await AvailableTime.bulkCreate(dataToSave);
       return sendSuccessResponse(res, 200, 'operation successful');
     } catch (error) {
       console.log(error);
@@ -26,7 +26,7 @@ const ConsultantController = {
     try {
       const { consultantUuid } = req.query;
       const availableTimes = await AvailableTime.findAll({
-        where: { consultantUuid }
+        where: { consultant_uuid: consultantUuid }
       });
       return sendSuccessResponse(res, 200, availableTimes);
     } catch (error) {
