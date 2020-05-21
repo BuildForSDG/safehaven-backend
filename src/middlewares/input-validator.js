@@ -1,9 +1,16 @@
+/**
+ * Request parameters and body validator
+ * Also to prevent mysql injection
+ * by sanitizing parsed data (param, body)
+ */
+
 import {
-//  param,
+  param,
   body
 } from 'express-validator';
 
 import authValidator from '../database/input-validator/auth';
+import { verifyToken } from '../utils/processToken';
 
 const validator = {};
 
@@ -59,6 +66,27 @@ validator.consultantSignup = [
 validator.login = [
   body('email', 'please enter a valid email').normalizeEmail().isEmail(),
   body('password').trim().escape()
+];
+
+validator.getOneUser = [
+  param('userId'),
+  param('token')
+    .custom((token) => verifyToken(token)
+      .then((payload) => {
+        if (!(payload.email)) {
+          return Promise.reject(Error('Invalid session token'));
+        }
+      }))
+];
+
+validator.getAllUsers = [
+  param('token')
+    .custom((token) => verifyToken(token)
+      .then((payload) => {
+        if (!(payload.email)) {
+          return Promise.reject(Error('Invalid session token'));
+        }
+      }))
 ];
 
 export default validator;

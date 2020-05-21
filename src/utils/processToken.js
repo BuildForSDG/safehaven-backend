@@ -15,7 +15,7 @@ export const createToken = (payload) => jwt.sign(payload, `${process.env.JWT_SEC
  * @param {string} token
  * @returns {object} verifiedToken
  */
-export const verifyToken = (token) => jwt.verify(token, `${process.env.JWT_SECRET}`, {
+export const verifyToken = async (token) => jwt.verify(token, `${process.env.JWT_SECRET}`, {
   expiresIn: '8h',
   algorithms: [
     'HS256'

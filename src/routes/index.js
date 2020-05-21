@@ -1,5 +1,7 @@
 import express from 'express';
 import auth from './auth';
+import patients from './patients';
+// import consultants from './consultants';
 
 export default (app) => {
   app.use(express.json());
@@ -12,6 +14,10 @@ export default (app) => {
 
   app.use('/api/v1/auth', [
     auth
+  ]);
+
+  app.use('/api/v1/patients', [
+    patients
   ]);
 
   app.all('/*', (req, res) => res.status(404).send({
