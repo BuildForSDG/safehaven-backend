@@ -26,7 +26,7 @@ describe('Patient onboarding', async () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.status).to.equal('success');
-          expect(res.body.data).to.equal('User account succesfully created');
+          expect(res.body.data).to.equal('User account successfully created');
           done();
         });
     });

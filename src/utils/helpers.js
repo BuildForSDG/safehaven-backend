@@ -3,13 +3,16 @@
 import Sequelize, {
   Op, fn, col, and
 } from 'sequelize';
+import models from '../models';
+
+const { Connection, User, Chat } = models;
 
 const helperMethods = {
 
 
   // find a user by uuid
-  async getAUserByUuid(User, uuid, exclude) {
-    const user = await User.findOne({
+  async getAUserByUuid(UserTable, uuid, exclude) {
+    const user = await UserTable.findOne({
       where: { uuid },
       attributes: {
         exclude
@@ -19,8 +22,8 @@ const helperMethods = {
   },
 
   // find user by username
-  async getAUserByUsernameAndUuid(User, username) {
-    const user = await User.findOne({
+  async getAUserByUsernameAndUuid(UserTable, username) {
+    const user = await UserTable.findOne({
       where: { username },
       attributes: [
         'uuid'
@@ -31,8 +34,8 @@ const helperMethods = {
   },
 
   // get all users
-  async signUpValidations(User) {
-    const users = await User.findAll({
+  async signUpValidations(UserTable) {
+    const users = await UserTable.findAll({
       attributes: [
         'uuid',
         'username',
@@ -95,6 +98,26 @@ const helperMethods = {
       ]
     });
     return datas;
+  },
+
+  async createConnection(patientUuid, consultantUuid) {
+    const connectionUuid = await Connection.findOrCreate({
+      patient_uuid: patientUuid,
+      consultant_uuid: consultantUuid,
+      where: {
+        patient_uuid: patientUuid,
+        consultant_uuid: consultantUuid
+      }
+    });
+    const chats = await Chat.findAll({
+      where: { connection_uuid: connectionUuid[0].dataValues.uuid }
+    });
+    return { uuid: connectionUuid[0].dataValues.uuid, chats };
+  },
+
+  async saveChats(data) {
+    const chat = await Chat.create(data);
+    return chat;
   }
 
 };

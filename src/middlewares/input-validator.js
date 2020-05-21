@@ -23,7 +23,7 @@ validator.patientSignup = [
           return Promise.reject(Error('Phone already in use'));
         }
       })),
-  body('email').normalizeEmail().isEmail()
+  body('email').isEmail()
     .custom((email) => authValidator.emailIsUnique(email)
       .then((emailIsUnique) => {
         if (emailIsUnique) {
