@@ -1,6 +1,6 @@
 /**
  * Request parameters and body validator
- * Also to prevent mysql injection
+ * Also to prevent SQL injection
  * by sanitizing parsed data (param, body)
  */
 
@@ -24,16 +24,16 @@ validator.patientSignup = [
   body('conditions').not().isEmpty(),
   body('phone').not().isEmpty().isLength({ min: 8 })
     .isNumeric()
-    .custom((phone) => authValidator.numberIsUnique(phone)
-      .then((numberIsUnique) => {
-        if (numberIsUnique) {
+    .custom((phone) => authValidator.numberIsTaken(phone)
+      .then((numberIsTaken) => {
+        if (numberIsTaken) {
           return Promise.reject(Error('Phone already in use'));
         }
       })),
   body('email').isEmail()
-    .custom((email) => authValidator.emailIsUnique(email)
-      .then((emailIsUnique) => {
-        if (emailIsUnique) {
+    .custom((email) => authValidator.emailIsTaken(email)
+      .then((emailIsTaken) => {
+        if (emailIsTaken) {
           return Promise.reject(Error('E-mail already in use'));
         }
       }))
@@ -48,16 +48,16 @@ validator.consultantSignup = [
   body('specialization').not().isEmpty(),
   body('phone').not().isEmpty().isLength({ min: 8 })
     .isNumeric()
-    .custom((phone) => authValidator.numberIsUnique(phone)
-      .then((numberIsUnique) => {
-        if (numberIsUnique) {
+    .custom((phone) => authValidator.numberIsTaken(phone)
+      .then((numberIsTaken) => {
+        if (numberIsTaken) {
           return Promise.reject(Error('Phone already in use'));
         }
       })),
   body('email').normalizeEmail().isEmail()
-    .custom((email) => authValidator.emailIsUnique(email)
-      .then((emailIsUnique) => {
-        if (emailIsUnique) {
+    .custom((email) => authValidator.emailIsTaken(email)
+      .then((emailIsTaken) => {
+        if (emailIsTaken) {
           return Promise.reject(Error('E-mail already in use'));
         }
       }))
@@ -68,25 +68,114 @@ validator.login = [
   body('password').trim().escape()
 ];
 
-validator.getOneUser = [
-  param('userId'),
+validator.getUsers = [
   param('token')
     .custom((token) => verifyToken(token)
       .then((payload) => {
+        console.log('Start get profile');
         if (!(payload.email)) {
           return Promise.reject(Error('Invalid session token'));
         }
       }))
 ];
 
-validator.getAllUsers = [
+validator.updatePatientProfile = [
   param('token')
     .custom((token) => verifyToken(token)
       .then((payload) => {
+        console.log('Start get profile');
         if (!(payload.email)) {
           return Promise.reject(Error('Invalid session token'));
+        }
+      }).catch((e) => {
+        console.log('Invalid token format');
+        console.log(e);
+        return Promise.reject(Error('Invalid session token'));
+      })),
+  body('firstName').not().isEmpty().isLength({ min: 2 }),
+  body('surName').not().isEmpty().isLength({ min: 2 }),
+  body('middleName'),
+  body('gender').isIn('male', 'female', 'not specified'),
+  body('role', 'invalid user role').isIn('patient', 'admin', 'consultant'),
+  body('conditions').not().isEmpty(),
+  body('phone').not().isEmpty().isLength({ min: 8 })
+    .isNumeric()
+    .custom((phone) => authValidator.numberIsTaken(phone)
+      .then((numberIsTaken) => {
+        if (numberIsTaken) {
+          const payload = verifyToken(param('token'));
+          authValidator.notOwnNumber(phone, payload.email)
+            .then((notOwnNumber) => {
+              console.log('notOwnNumber :::: ');
+              console.log(notOwnNumber);
+              if (notOwnNumber) {
+                return Promise.reject(Error('Phone already in use'));
+              }
+            }).catch((e) => {
+              console.log(e);
+            });
+        }
+      })),
+  body('email').isEmail()
+    .custom((email) => authValidator.emailIsTaken(email)
+      .then((emailIsTaken) => {
+        const payload = verifyToken(param('token'));
+        const notOwnEmail = (email !== payload.email);
+        console.log('notOwnEmail :::: ', notOwnEmail);
+        console.log('emailIsTaken :::: ', emailIsTaken);
+        if (notOwnEmail && emailIsTaken) {
+          return Promise.reject(Error('E-mail already in use'));
         }
       }))
 ];
 
+
+validator.updateConsultantProfile = [
+  param('token')
+    .custom((token) => verifyToken(token)
+      .then((payload) => {
+        console.log('Start get profile');
+        if (!(payload.email)) {
+          return Promise.reject(Error('Invalid session token'));
+        }
+      }).catch((e) => {
+        console.log('Invalid token format');
+        console.log(e);
+        return Promise.reject(Error('Invalid session token'));
+      })),
+  body('firstName').not().isEmpty().isLength({ min: 2 }),
+  body('surName').not().isEmpty().isLength({ min: 2 }),
+  body('middleName'),
+  body('gender').isIn('male', 'female', 'not specified'),
+  body('specialization').not().isEmpty(),
+  body('phone').not().isEmpty().isLength({ min: 8 })
+    .isNumeric()
+    .custom((phone) => authValidator.numberIsTaken(phone)
+      .then((numberIsTaken) => {
+        if (numberIsTaken) {
+          const payload = verifyToken(param('token'));
+          authValidator.notOwnNumber(phone, payload.email)
+            .then((notOwnNumber) => {
+              console.log('notOwnNumber :::: ');
+              console.log(notOwnNumber);
+              if (notOwnNumber) {
+                return Promise.reject(Error('Phone already in use'));
+              }
+            }).catch((e) => {
+              console.log(e);
+            });
+        }
+      })),
+  body('email').isEmail()
+    .custom((email) => authValidator.emailIsTaken(email)
+      .then((emailIsTaken) => {
+        const payload = verifyToken(param('token'));
+        const notOwnEmail = (email !== payload.email);
+        console.log('notOwnEmail :::: ', notOwnEmail);
+        console.log('emailIsTaken :::: ', emailIsTaken);
+        if (notOwnEmail && emailIsTaken) {
+          return Promise.reject(Error('E-mail already in use'));
+        }
+      }))
+];
 export default validator;

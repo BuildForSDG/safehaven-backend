@@ -6,10 +6,10 @@ import { createToken, verifyToken } from '../../src/utils/processToken';
 
 chai.use(chaiHttp);
 
-describe('Process token', () => {
+describe('Process token', async () => {
   const email = 'johndoe@email.com';
   const token = createToken({ email });
-  const verifiedToken = verifyToken(token);
+  const verifiedToken = await verifyToken(token);
 
   it('Should return a generated token string', (done) => {
     expect(token).to.be.a('string');

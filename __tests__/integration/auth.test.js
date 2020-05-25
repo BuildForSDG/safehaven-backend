@@ -10,7 +10,6 @@ import { createToken } from '../../src/utils/processToken';
 
 const { User } = model;
 
-
 chai.use(chaiHttp);
 
 describe('User Auth', () => {
@@ -32,9 +31,8 @@ describe('User Auth', () => {
     updatedAt: new Date()
   };
 
-  before(async () => User.destroy({ where: {}, force: true }));
+  before(async () => User.destroy({ where: { email: 'susan.abioye@kodehauz.com' } }));
   before(async () => { await User.create(testUser); });
-  after(async () => User.destroy({ where: {}, force: true }));
 
   describe('User Login API', () => {
     it('Should sign in user with correct email and password', (done) => {

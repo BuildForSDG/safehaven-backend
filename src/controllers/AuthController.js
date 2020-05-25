@@ -76,28 +76,29 @@ const AuthController = {
 
     try {
       const {
-        firstName, surName, email, gender, phone, specialization
+        firstName, surName, email, gender, phone, specialization, role
       } = req.body;
       const password = hashPassword(req.body.password);
-      try {
-        const user = {
-          firstName, surName, email, gender, password, phone
-        };
-        user.avatar = await imageUploader('validIdCard', req.files.avatar);
-        const emailToken = createToken({ email });
-        const consultant = { role: 'consultant' };
-        consultant.specialization = specialization;
-        consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
-        consultant.validIdCard = await imageUploader('validCertificate', req.files.validCertificate);
 
-        await Consultant.create(consultant);
-        await User.create(user);
-        await SendMail(email, emailToken);
-        return sendSuccessResponse(res, 200, 'User account succesfully created');
-      } catch (e) {
-        return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
-      }
+      const user = {
+        firstName, surName, email, gender, password, phone, role
+      };
+      user.avatar = await imageUploader('validIdCard', req.files.avatar);
+      const emailToken = createToken({ email });
+      const consultant = { role: 'consultant' };
+      consultant.specialization = specialization;
+      consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
+      consultant.validIdCard = await imageUploader('validCertificate', req.files.validCertificate);
+
+      const { uuid } = await User.create(user);
+      consultant.uuid = uuid;
+      consultant.user_uuid = uuid;
+      await Consultant.create(consultant);
+      await SendMail(email, emailToken);
+      return sendSuccessResponse(res, 200, 'User account succesfully created');
     } catch (e) {
+      console.log('signupConsultant error ::::: ');
+      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
@@ -128,6 +129,7 @@ const AuthController = {
       );
       return sendSuccessResponse(res, 200, 'Your account has been verified successfully');
     } catch (e) {
+      console.log('Verify User error ::::: ');
       console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }

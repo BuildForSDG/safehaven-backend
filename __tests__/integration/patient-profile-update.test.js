@@ -1,44 +1,79 @@
 import { describe, it } from 'mocha';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
+import 'chai/register-should';
 import app from '../../src';
 import model from '../../src/models';
+import { hashPassword } from '../../src/utils/passwordHash';
 
 const { User } = model;
 
 chai.use(chaiHttp);
 
-describe('Patient onboarding', async () => {
-  before(async () => User.destroy({ where: { email: 'kk@kodehassqz.com' } }));
-  describe('User can signup as patient', () => {
-    it('Should be able to sign up with correct input format', (done) => {
+const testUser = {
+  surName: 'Ayooluwa',
+  firstName: 'Olosunde',
+  middleName: 'lovisgod',
+  email: 'susan.abioye@kodehauz.com',
+  password: hashPassword('Password111'),
+  phone: '07012221111',
+  role: 'patient',
+  verified: true,
+  gender: 'male',
+  dateOfBirth: '05/06/1994',
+  nationality: 'Nigerian',
+  address: 'No 34B Ewet, Housing Estate',
+  createdAt: new Date(),
+  updatedAt: new Date()
+};
+
+describe('Patient profile update', async () => {
+  let token = '';
+
+  before(async () => User.destroy({ where: { email: 'susan.abioye@kodehauz.com' } }));
+  before(async () => User.destroy({ where: { email: 'kk@kodeqz.com' } }));
+  before(async () => { await User.create(testUser); });
+  before((done) => {
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'susan.abioye@kodehauz.com',
+        password: 'Password111'
+      })
+      .end((err, res) => {
+        token = res.body.data.token;
+        done();
+      });
+  });
+
+  describe('User can update personal profile', () => {
+    it('Should be able to update profile with valid token', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup-patient')
+        .patch(`/api/v1/patients/profile/${token}`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
-        .field('email', 'kk@kodehassqz.com')
-        .field('password', 'Pas1sdsds')
-        .field('phone', '07015271191')
+        .field('email', 'kk@kodeqz.com')
+        .field('phone', '0701527121')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
+        .attach('avatar', '')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.status).to.equal('success');
-          expect(res.body.data).to.equal('User account successfully created');
+          expect(res.body.data).to.equal('Account Succesfully updated');
           done();
         });
     });
 
-    it('Should not be able to sign up with existing phone number', (done) => {
+    it('Should not be able to update profile with invalid token', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup-patient')
+        .patch(`/api/v1/patients/profile/${token}akjkjkja`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
-        .field('email', 'kk@kodehausze.com')
-        .field('password', 'Passw1sdsds')
+        .field('email', 'kk@kodehassqz.com')
         .field('phone', '07015271191')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
@@ -46,22 +81,18 @@ describe('Patient onboarding', async () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
-          expect(res.body.error.msg).to.eql('Phone already in use');
-          expect(res.body.error.param).to.eql('phone');
           done();
         });
     });
 
-
-    it('Should not be able to sign up with existing email', (done) => {
+    it('Should not be able to update with existing users email', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup-patient')
+        .patch(`/api/v1/patients/profile/${token}`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
-        .field('email', 'kk@kodehassqz.com')
-        .field('password', 'Passw1sdsds')
-        .field('phone', '070002661912')
+        .field('email', 'jabathehuth@gmail.com')
+        .field('phone', '070122661912')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
@@ -76,12 +107,11 @@ describe('Patient onboarding', async () => {
 
     it('Should be prompted to input correct email format on incorrect email format', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup-patient')
+        .patch(`/api/v1/patients/profile/${token}`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
         .field('email', 'kkkodehauz.com')
-        .field('password', 'Password111')
         .field('phone', '070132298411')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
@@ -95,25 +125,5 @@ describe('Patient onboarding', async () => {
         });
     });
 
-    it('Should prompted user to input password of 8 or more characters on user input 7 characters or less', (done) => {
-      chai.request(app)
-        .post('/api/v1/auth/signup-patient')
-        .field('surName', 'Olaf')
-        .field('firstName', 'Jeremy')
-        .field('middleName', 'Mason')
-        .field('email', 'kk@koajwdehauz.com')
-        .field('password', 'Passw1')
-        .field('phone', '070122297111')
-        .field('role', 'patient')
-        .field('conditions', 'alzemhier, alopaciar, night blindness')
-        .field('gender', 'male')
-        .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.eql('error');
-          expect(res.body.error.msg).to.eql('Invalid value');
-          expect(res.body.error.param).to.eql('password');
-          done();
-        });
-    });
   });
 });

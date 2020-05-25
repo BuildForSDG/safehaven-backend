@@ -49,6 +49,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  User.associate = (models) => models;
+  User.associate = (models) => {
+    User.hasOne(models.Consultant, {
+      foreignKey: 'uuid',
+      as: 'consultant',
+      onDelete: 'CASCADE'
+    });
+  };
   return User;
 };

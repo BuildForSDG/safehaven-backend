@@ -1,22 +1,43 @@
 import model from '../models';
 import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
-import { hashPassword } from '../utils/passwordHash';
+import { verifyToken } from '../utils/processToken';
 
 const { User } = model;
 
 const PatientController = {
-  async getOnePatient(req, res) {
+  async getProfile(req, res) {
     try {
-      const { userId } = req.params;
+      const { uuid } = await verifyToken(req.params.token);
       const patient = await User.findOne({
         attributes: { exclude: ['password', 'updatedAt'] },
-        where: { uuid: userId }
+        where: { uuid }
       });
-
       if (!patient) return sendErrorResponse(res, 404, 'User Not Found!!');
       return sendSuccessResponse(res, 200, patient);
     } catch (e) {
+      console.log('Get patient profile error ::::::::');
       console.log(e);
+      return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
+    }
+  },
+  async updateProfile(req, res) {
+    try {
+      const {
+        firstName, surName, email, phone,
+        dateOfBirth, nationality, avatar, stateOfOrigin, address
+      } = req.body;
+      const user = {
+        firstName, surName, email, phone, dateOfBirth, nationality, avatar, stateOfOrigin, address
+      };
+      const { uuid } = await verifyToken(req.params.token);
+      console.log('UUID ::::: ');
+      console.log(uuid);
+      console.log('Got Profile ? ::::: ');
+      await User.update(user, { where: { uuid } });
+      console.log(' probably ');
+      return sendSuccessResponse(res, 200, 'Account Succesfully updated');
+    } catch (e) {
+      console.log('Update patient profile error ::::::::');
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
@@ -29,7 +50,6 @@ const PatientController = {
       if (!patient) return sendErrorResponse(res, 404, 'User Not Found!!');
       return sendSuccessResponse(res, 200, patient);
     } catch (e) {
-      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   }

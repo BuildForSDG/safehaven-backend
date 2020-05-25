@@ -5,15 +5,12 @@ import chaiHttp from 'chai-http';
 import app from '../../src';
 import model from '../../src/models';
 
-const { User, Consultant } = model;
+const { User } = model;
 
 chai.use(chaiHttp);
 
 describe('Consultant onboarding', async () => {
-  before(async () => {
-    User.destroy({ where: {}, force: true });
-    Consultant.destroy({ where: {}, force: true });
-  });
+  before(async () => User.destroy({ where: { email: 'kk@kodehauqz.com' } }));
 
   describe('User can signup as consultant', () => {
     it('Should be able to sign up with correct input format', (done) => {
@@ -42,7 +39,7 @@ describe('Consultant onboarding', async () => {
         .post('/api/v1/auth/signup-consultant')
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
-        .field('email', 'kk@kodehauze.com')
+        .field('email', 'kk@kodehauze000009.com')
         .field('password', 'Passw1sdsds')
         .field('phone', '070122271191')
         .field('specialization', 'psychologist')
