@@ -4,15 +4,35 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../src';
 import model from '../../src/models';
+import { hashPassword } from '../../src/utils/passwordHash';
 
-const { User, Consultant } = model;
+const { User, Consultant, AvailableTime } = model;
 
 chai.use(chaiHttp);
 
 describe('Consultant onboarding', async () => {
+  const testConsultant = {
+    uuid: 'b38fcf44-b77f-4149-8d66-454d7a5eacdc',
+    surName: 'Ayooluwaaaa',
+    firstName: 'Olosundeeee',
+    middleName: 'lovisgodrr',
+    email: 'susan.abioya@kodehauz.com',
+    password: hashPassword('Password112'),
+    phone: '07012221112',
+    role: 'consultant',
+    verified: true,
+    gender: 'male',
+    dateOfBirth: '05/06/1994',
+    nationality: 'Nigerian',
+    address: 'No 34B Ewet, Housing Estate',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
   before(async () => {
-    User.destroy({ where: {}, force: true });
-    Consultant.destroy({ where: {}, force: true });
+    await User.destroy({ where: {}, force: true });
+    await User.create(testConsultant);
+    await Consultant.destroy({ where: {}, force: true });
+    await AvailableTime.destroy({ where: {}, force: true });
   });
 
   describe('User can signup as consultant', () => {
@@ -124,6 +144,50 @@ describe('Consultant onboarding', async () => {
           expect(res.body.status).to.eql('error');
           expect(res.body.error.msg).to.eql('Invalid value');
           expect(res.body.error.param).to.eql('password');
+          done();
+        });
+    });
+  });
+  describe('consultant login and specify its consulting available time', () => {
+    let token;
+    it('Should sign in user with correct email and password', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/login')
+        .send({
+          email: 'susan.abioya@kodehauz.com',
+          password: 'Password112'
+        })
+        .end((err, res) => {
+          token = res.body.data.token;
+          expect(res.status).to.equal(200);
+          expect(res.body.data).to.have.property('token');
+          expect(token).to.be.eql(res.body.data.token);
+          done();
+        });
+    });
+    it('Should select available days and time', (done) => {
+      chai.request(app)
+        .post('/api/v1/select-available-time')
+        .set('authorization', `Bearer ${token}`)
+        .send({
+          availableTime: ['THUR, 13:00pm', 'FRI, 14:00pm']
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.data).to.eql('operation successful');
+          done();
+        });
+    });
+    it('Should display available time for a particular consultant', (done) => {
+      chai.request(app)
+        .get('/api/v1/available-time')
+        .query({
+          consultantUuid: 'b38fcf44-b77f-4149-8d66-454d7a5eacdc'
+        })
+        .set('authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.data).to.be.an('Array');
           done();
         });
     });
