@@ -32,6 +32,7 @@ describe('User Auth', () => {
     updatedAt: new Date()
   };
 
+  before(async () => User.destroy({ where: {}, force: true }));
   before(async () => { await User.create(testUser); });
   after(async () => User.destroy({ where: {}, force: true }));
 
@@ -73,6 +74,18 @@ describe('User Auth', () => {
         })
         .end((err, res) => {
           expect(res.status).to.be.eql(400);
+          expect(res.body.status).to.eql('error');
+          done();
+        });
+    });
+  });
+
+  describe('User verify API', () => {
+    it('Should not verify incorrect token', (done) => {
+      chai.request(app)
+        .get('/api/v1/auth/verification/jkkdfjkdkfjkakjfkdfkdkfkdjfkfkdjfkdkfkjdkfjkfj.jdkf/email@email.com')
+        .end((err, res) => {
+          expect(res.status).to.equal(500);
           expect(res.body.status).to.eql('error');
           done();
         });

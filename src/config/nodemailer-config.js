@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
+
 dotenv.config();
 export const options = {
   host: `${process.env.EMAIL_HOST}`,
@@ -12,4 +13,13 @@ export const options = {
   }
 };
 
+export const gmailOptions = {
+  service: 'gmail',
+  auth: {
+    user: `${process.env.GMAIL_USERNAME}`,
+    pass: `${process.env.GMAIL_PASSWORD}`
+  }
+};
+
 export const transporter = nodemailer.createTransport(options);
+export const gmailTransporter = nodemailer.createTransport(gmailOptions);

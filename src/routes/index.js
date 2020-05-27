@@ -1,5 +1,6 @@
 import express from 'express';
 import auth from './auth';
+import consultant from './consultant';
 
 export default (app) => {
   app.use(express.json());
@@ -10,8 +11,8 @@ export default (app) => {
     data: 'Welcome to safeHaven API'
   }));
 
-  app.use('/api/v1/auth', [
-    auth
+  app.use('/api/v1', [
+    auth, consultant
   ]);
 
   app.all('/*', (req, res) => res.status(404).send({
@@ -19,8 +20,7 @@ export default (app) => {
     error: 'This route is unavailable on this server'
   }));
 
-  // eslint-disable-next-line no-unused-vars
-  app.use((error, req, res, next) => {
+  app.use((error, req, res) => {
     // don't print stack traces in production environment
     if (app.get('env') !== 'production') console.log(error.stack);
     res.status(error.status || 500);

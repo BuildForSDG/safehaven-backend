@@ -25,7 +25,5 @@ export default {
     return queryInterface.bulkInsert('Users', UsersData, {});
   },
   // eslint-disable-next-line arrow-parens
-  async down(queryInterface) {
-    queryInterface.bulkDelete('Users', null, {});
-  }
+  down: async (queryInterface) => queryInterface.bulkDelete('Users', null, {})
 };

@@ -18,6 +18,7 @@
   },
   "scripts": {
     "test": "cross-env NODE_ENV=test npm run db:migrate:undo && npm run db:migrate:test && nyc mocha --no-timeout './__tests__/index.js' --exit",
+    "test:no-migrate": "cross-env NODE_ENV=test && nyc mocha --no-timeout './__tests__/index.js' --exit",
     "test:report": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 './__tests__/index.js' --exit",
     "lint": "eslint \"src/**/*.js\"",
     "dev": "nodemon --exec babel-node src/index.js",
@@ -49,10 +50,11 @@
   "license": "MIT",
   "dependencies": {
     "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^7.9.0",
     "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
+    "@sendgrid/mail": "^7.1.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.14.0",
     "cors": "^2.8.5",
@@ -80,6 +82,7 @@
     "sequelize-cli": "^5.5.0",
     "sequelize-hierarchy": "^2.0.4",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^2.0.2",
     "unified": "^9.0.0",
     "uuid": "^3.3.3"
   },
