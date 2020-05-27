@@ -1,6 +1,5 @@
 import express from 'express';
 import AuthController from '../controllers/AuthController';
-// import Auth from '../middlewares/Auth';
 import validator from '../middlewares/input-validator';
 import validateRequest from '../utils/validateRequest';
 import imageUpload from '../middlewares/imageUpload';
