@@ -50,7 +50,7 @@ describe('users should be able to view profile(s)', () => {
     it('Should not be accessible by empty endpoint', (done) => {
       const end = '';
       chai.request(app)
-        .get(`/api/v1/patients/profile/${end}`)
+        .get(`/api/v1/profile/${end}`)
         .end((err, res) => {
           expect(res.status).to.equal(404);
           done();
@@ -59,7 +59,7 @@ describe('users should be able to view profile(s)', () => {
 
     it('Should access profile with correct token', (done) => {
       chai.request(app)
-        .get(`/api/v1/patients/profile/${token}`)
+        .get(`/api/v1/profile/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.data).to.have.property('email');
@@ -69,7 +69,7 @@ describe('users should be able to view profile(s)', () => {
 
     it('Should access profile with correct token', (done) => {
       chai.request(app)
-        .get(`/api/v1/patients/profile/${token}`)
+        .get(`/api/v1/profile/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.data).to.have.property('email');
@@ -79,7 +79,7 @@ describe('users should be able to view profile(s)', () => {
 
     it('Should access all patient profiles with correct token', (done) => {
       chai.request(app)
-        .get(`/api/v1/patients/get-all/${token}`)
+        .get(`/api/v1/patients/${token}`)
         .end((err, res) => {
           console.log('res.body.data[0]');
           console.log(res.body.data[0]);
@@ -91,7 +91,7 @@ describe('users should be able to view profile(s)', () => {
 
     it('Should not access profile with incorrect token', (done) => {
       chai.request(app)
-        .get(`/api/v1/patients/get-all/${`${token}iiiiiii`}`)
+        .get(`/api/v1/patients/${`${token}iiiiiii`}`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -120,7 +120,7 @@ describe('users should be able to view profile(s)', () => {
     it('Should not be accessible by empty endpoint', (done) => {
       const endpoint = '';
       chai.request(app)
-        .get(`/api/v1/consultants/profile/${endpoint}`)
+        .get(`/api/v1/profile/${endpoint}`)
         .end((err, res) => {
           expect(res.status).to.equal(404);
           done();
@@ -129,7 +129,7 @@ describe('users should be able to view profile(s)', () => {
 
     it('Should access profile with correct token', (done) => {
       chai.request(app)
-        .get(`/api/v1/consultants/profile/${token}`)
+        .get(`/api/v1/profile/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.data).to.have.property('email');
@@ -139,7 +139,7 @@ describe('users should be able to view profile(s)', () => {
 
     it('Should access profiles with correct token', (done) => {
       chai.request(app)
-        .get(`/api/v1/consultants/get-all/${token}`)
+        .get(`/api/v1/consultants/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.data[0]).to.have.property('email');
@@ -149,7 +149,7 @@ describe('users should be able to view profile(s)', () => {
 
     it('Should access profile with correct token', (done) => {
       chai.request(app)
-        .get(`/api/v1/consultants/profile/${token}`)
+        .get(`/api/v1/profile/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.data).to.have.property('email');

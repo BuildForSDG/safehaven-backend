@@ -1,5 +1,7 @@
+/* eslint-disable eqeqeq */
 import express from 'express';
 import auth from './auth';
+import profile from './profile';
 import patients from './patients';
 import consultants from './consultants';
 
@@ -20,6 +22,10 @@ export default (app) => {
 
   app.use('/api/v1/auth', [
     auth
+  ]);
+
+  app.use('/api/v1/profile', [
+    profile
   ]);
 
   app.use('/api/v1/patients', [

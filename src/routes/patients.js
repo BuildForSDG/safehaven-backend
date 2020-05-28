@@ -6,8 +6,6 @@ import imageUpload from '../middlewares/imageUpload';
 
 const patientsRouter = express.Router();
 
-patientsRouter.patch('/profile/:token', imageUpload.none, validator.updatePatientProfile, validateRequest, PatientsController.updateProfile);
-patientsRouter.get('/get-all/:token', imageUpload.none, validator.getUsers, validateRequest, PatientsController.getAllPatients);
-patientsRouter.get('/profile/:token', imageUpload.none, validator.getUsers, validateRequest, PatientsController.getProfile);
+patientsRouter.get('/:token', imageUpload.none, validator.getUsers, validateRequest, PatientsController.getAllPatients);
 
 export default patientsRouter;

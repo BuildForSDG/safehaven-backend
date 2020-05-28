@@ -49,7 +49,7 @@ describe('Patient profile update', async () => {
   describe('User can update personal profile', () => {
     it('Should be able to update profile with valid token', (done) => {
       chai.request(app)
-        .patch(`/api/v1/patients/profile/${token}`)
+        .patch(`/api/v1/profile/${token}`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
@@ -69,7 +69,7 @@ describe('Patient profile update', async () => {
 
     it('Should not be able to update profile with invalid token', (done) => {
       chai.request(app)
-        .patch(`/api/v1/patients/profile/${token}akjkjkja`)
+        .patch(`/api/v1/profile/${token}akjkjkja`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
@@ -87,7 +87,7 @@ describe('Patient profile update', async () => {
 
     it('Should not be able to update with existing users email', (done) => {
       chai.request(app)
-        .patch(`/api/v1/patients/profile/${token}`)
+        .patch(`/api/v1/profile/${token}`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
@@ -107,7 +107,7 @@ describe('Patient profile update', async () => {
 
     it('Should be prompted to input correct email format on incorrect email format', (done) => {
       chai.request(app)
-        .patch(`/api/v1/patients/profile/${token}`)
+        .patch(`/api/v1/profile/${token}`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
@@ -124,6 +124,5 @@ describe('Patient profile update', async () => {
           done();
         });
     });
-
   });
 });

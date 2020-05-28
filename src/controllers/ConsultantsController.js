@@ -18,7 +18,6 @@ const ConsultantController = {
       if (!consultant) return sendErrorResponse(res, 404, 'User Not Found!!');
       return sendSuccessResponse(res, 200, consultant);
     } catch (e) {
-      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
@@ -37,7 +36,6 @@ const ConsultantController = {
 
       return sendSuccessResponse(res, 200, 'Account Succesfully updated');
     } catch (e) {
-      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
@@ -53,7 +51,6 @@ const ConsultantController = {
 
       return sendSuccessResponse(res, 200, consultant);
     } catch (e) {
-      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   }
