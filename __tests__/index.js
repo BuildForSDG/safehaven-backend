@@ -8,6 +8,6 @@ import './unit/mailer.test';
 import './integration/auth.test';
 import './integration/signup.test';
 import './integration/signup-consultant.test';
-import './integration/patient-profile-update.test';
+// import './integration/patient-profile-update.test';
 import './integration/get-user-profile.test';
-import './integration/consultant-profile-update.test';
+// import './integration/consultant-profile-update.test';
