@@ -112,15 +112,6 @@ validator.PreventDuplicateContactEdit = async (req, res, next) => {
   const { token } = req.params;
   const payload = verifyToken(token);
 
-  console.log('phone ::: ');
-  console.log(phone);
-  console.log('email ::: ');
-  console.log(email);
-  console.log('token ::: ');
-  console.log(token);
-  console.log('payload ::: ');
-  console.log(payload);
-
   authValidator.emailIsTaken(email)
     .then((emailIsTaken) => {
       const notOwnEmail = (email !== payload.email);
@@ -144,26 +135,6 @@ validator.PreventDuplicateContactEdit = async (req, res, next) => {
         .catch(() => sendErrorResponse(res, 422, 'SERVER ERROR'));
     })
     .catch(() => sendErrorResponse(res, 422, 'SERVER ERROR'));
-/*
-  try {
-    const numberIsTaken = await authValidator.numberIsTaken(phone);
-    const emailIsTaken = await authValidator.emailIsTaken(email);
-    const notOwnEmail = (email !== payload.email);
-    const notOwnNumber = await authValidator.notOwnNumber(phone, payload.email);
-
-    if (numberIsTaken && notOwnNumber) {
-      const error = expressValidatorResponseMock(phone, 'Phone already in use', 'phone', 'body');
-      return sendErrorResponse(res, 422, error);
-    }
-    if (emailIsTaken && notOwnEmail) {
-      const error = expressValidatorResponseMock(email, 'E-mail already in use', 'email', 'body');
-      return sendErrorResponse(res, 422, error);
-    }
-    next();
-  } catch (e) {
-    return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
-  }
-  */
 };
 
 export default validator;
