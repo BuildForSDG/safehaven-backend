@@ -6,14 +6,17 @@ import PatientsController from '../controllers/PatientsController';
 import ConsultantController from '../controllers/consultantController';
 import { verifyToken } from '../utils/processToken';
 
+const { PreventDuplicateContactEdit } = validator;
 const profileRouter = express.Router();
 
-profileRouter.patch('/profile/:token', imageUpload.none, validator.updateProfile, validateRequest, (req, res) => {
-  const { token } = req.params;
-  const payload = verifyToken(token);
-  return (payload.role === 'consultant') ? ConsultantController.updateProfile(req, res)
-    : PatientsController.updateProfile(req, res);
-});
+profileRouter.patch('/profile/:token', imageUpload.none, validator.updateProfile, validateRequest, PreventDuplicateContactEdit,
+  (req, res) => {
+    const { token } = req.params;
+    const payload = verifyToken(token);
+
+    return (payload.role === 'consultant') ? ConsultantController.updateProfile(req, res)
+      : PatientsController.updateProfile(req, res);
+  });
 
 profileRouter.get('/profile/:token', imageUpload.none, validator.getUsers, validateRequest, (req, res) => {
   const { token } = req.params;

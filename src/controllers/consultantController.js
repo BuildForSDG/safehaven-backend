@@ -67,7 +67,6 @@ const ConsultantController = {
       await AvailableTime.bulkCreate(dataToSave);
       return sendSuccessResponse(res, 200, 'operation successful');
     } catch (error) {
-      console.log(error);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
@@ -81,7 +80,6 @@ const ConsultantController = {
       });
       return sendSuccessResponse(res, 200, availableTimes);
     } catch (error) {
-      console.log(error);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   }

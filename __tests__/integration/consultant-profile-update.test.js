@@ -27,12 +27,29 @@ const testUser = {
   updatedAt: new Date()
 };
 
+const testUserDuplicate = {
+  surName: 'Ayooluwa',
+  firstName: 'Olosunde',
+  middleName: 'lovisgod',
+  email: 'susan@ab2ioye.com',
+  password: hashPassword('Password111'),
+  phone: '070122221001',
+  role: 'patient',
+  verified: true,
+  gender: 'male',
+  dateOfBirth: '05/06/1994',
+  nationality: 'Nigerian',
+  address: 'No 34B Ewet, Housing Estate'
+};
+
 describe('Consultant profile update', async () => {
   let token = '';
 
   before(async () => User.destroy({ where: { email: 'susan.abioye@kodehauz.com' } }));
   before(async () => User.destroy({ where: { email: 'kk@kodeqz.com' } }));
+  before(async () => User.destroy({ where: { email: 'susan@abioye.com' } }));
   before(async () => { await User.create(testUser); });
+  before(async () => { await User.create(testUserDuplicate); });
   before((done) => {
     chai.request(app)
       .post('/api/v1/auth/login')
@@ -83,14 +100,34 @@ describe('Consultant profile update', async () => {
         });
     });
 
+    it('Should not be able to update with existing users phone', (done) => {
+      chai.request(app)
+        .patch(`/api/v1/profile/${token}`)
+        .field('surName', 'Olaf')
+        .field('firstName', 'Jeremy')
+        .field('middleName', 'Mason')
+        .field('email', 'jabat98898h@gmail.com')
+        .field('phone', '070122221001')
+        .field('specialization', 'Psychologist')
+        .field('gender', 'male')
+        .end((err, res) => {
+          console.log(res.body);
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.eql('error');
+          expect(res.body.error.msg).to.eql('Phone already in use');
+          expect(res.body.error.param).to.eql('phone');
+          done();
+        });
+    });
+
     it('Should not be able to update with existing users email', (done) => {
       chai.request(app)
         .patch(`/api/v1/profile/${token}`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
-        .field('email', 'jabathehuth@gmail.com')
-        .field('phone', '070122661912')
+        .field('email', 'susan@ab2ioye.com')
+        .field('phone', '07012129912')
         .field('specialization', 'Psychologist')
         .field('gender', 'male')
         .end((err, res) => {

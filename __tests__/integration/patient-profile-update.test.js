@@ -22,9 +22,22 @@ const testUser = {
   gender: 'male',
   dateOfBirth: '05/06/1994',
   nationality: 'Nigerian',
-  address: 'No 34B Ewet, Housing Estate',
-  createdAt: new Date(),
-  updatedAt: new Date()
+  address: 'No 34B Ewet, Housing Estate'
+};
+
+const testUserDuplicate = {
+  surName: 'Ayooluwa',
+  firstName: 'Olosunde',
+  middleName: 'lovisgod',
+  email: 'susan@abioye.com',
+  password: hashPassword('Password111'),
+  phone: '07012221001',
+  role: 'patient',
+  verified: true,
+  gender: 'male',
+  dateOfBirth: '05/06/1994',
+  nationality: 'Nigerian',
+  address: 'No 34B Ewet, Housing Estate'
 };
 
 describe('Patient profile update', async () => {
@@ -32,7 +45,9 @@ describe('Patient profile update', async () => {
 
   before(async () => User.destroy({ where: { email: 'susan.abioye@kodehauz.com' } }));
   before(async () => User.destroy({ where: { email: 'kk@kodeqz.com' } }));
+  before(async () => User.destroy({ where: { email: 'susan@abioye.com' } }));
   before(async () => { await User.create(testUser); });
+  before(async () => { await User.create(testUserDuplicate); });
   before((done) => {
     chai.request(app)
       .post('/api/v1/auth/login')
@@ -42,12 +57,16 @@ describe('Patient profile update', async () => {
       })
       .end((err, res) => {
         token = res.body.data.token;
+        console.log('patient token :::::::: ');
+        console.log(token);
         done();
       });
   });
 
   describe('User can update personal profile', () => {
     it('Should be able to update profile with valid token', (done) => {
+      console.log('token :::::::: ');
+      console.log(token);
       chai.request(app)
         .patch(`/api/v1/profile/${token}`)
         .field('surName', 'Olaf')
@@ -85,14 +104,34 @@ describe('Patient profile update', async () => {
         });
     });
 
+    it('Should not be able to update with existing users phone', (done) => {
+      chai.request(app)
+        .patch(`/api/v1/profile/${token}`)
+        .field('surName', 'Olaf')
+        .field('firstName', 'Jeremy')
+        .field('middleName', 'Mason')
+        .field('email', 'kk@kodepopopqz.com')
+        .field('phone', '07012221001')
+        .field('role', 'patient')
+        .field('conditions', 'alzemhier, alopaciar, night blindness')
+        .field('gender', 'male')
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.eql('error');
+          expect(res.body.error.msg).to.eql('Phone already in use');
+          expect(res.body.error.param).to.eql('phone');
+          done();
+        });
+    });
+
     it('Should not be able to update with existing users email', (done) => {
       chai.request(app)
         .patch(`/api/v1/profile/${token}`)
         .field('surName', 'Olaf')
         .field('firstName', 'Jeremy')
         .field('middleName', 'Mason')
-        .field('email', 'jabathehuth@gmail.com')
-        .field('phone', '070122661912')
+        .field('email', 'susan@abioye.com')
+        .field('phone', '07012260928002')
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')

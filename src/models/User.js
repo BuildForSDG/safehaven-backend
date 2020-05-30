@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       phone: {
-        type: DataTypes.REAL,
+        type: DataTypes.STRING,
         unique: {
           args: true,
-          msg: 'Email Already Exist!!!'
+          msg: 'Phone Already Exist!!!'
         }
       },
       gender: DataTypes.STRING,
