@@ -131,6 +131,38 @@ const AuthController = {
       console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
+  },
+
+  async social({ user }, res) {
+    try {
+      const {
+        // eslint-disable-next-line camelcase
+        social_id,
+        name,
+        image,
+        email,
+        // eslint-disable-next-line no-unused-vars
+        provider
+      } = user;
+
+      const checkUser = await User.findOne({ where: { password: social_id } });
+      if (checkUser) return sendSuccessResponse(res, 200, userToken(checkUser));
+
+      const newUser = await User.create({
+        firstName: name.split(' ')[0],
+        surName: name.split(' ')[1],
+        email: email || '',
+        avatar: image || '',
+        role: 'patient',
+        verified: true,
+        status: 'active',
+        password: social_id
+      });
+      return sendSuccessResponse(res, 200, userToken(newUser));
+    } catch (e) {
+      console.log(e);
+      return sendErrorResponse(res, 500, 'Server error, contact admin to resolve issue');
+    }
   }
 };
 
