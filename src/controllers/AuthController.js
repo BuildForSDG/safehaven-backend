@@ -144,7 +144,7 @@ const AuthController = {
         // eslint-disable-next-line no-unused-vars
         provider
       } = user;
-
+      console.log(user);
       const checkUser = await User.findOne({ where: { password: social_id } });
       if (checkUser) return sendSuccessResponse(res, 200, userToken(checkUser));
 
