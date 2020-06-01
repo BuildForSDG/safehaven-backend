@@ -26,7 +26,7 @@ module.exports = {
     },
     phone: {
       allowNull: true,
-      type: Sequelize.REAL
+      type: Sequelize.STRING
     },
     gender: {
       allowNull: true,

@@ -28,6 +28,7 @@ describe('Consultant onboarding', async () => {
     createdAt: new Date(),
     updatedAt: new Date()
   };
+
   before(async () => {
     await User.destroy({ where: {}, force: true });
     await User.create(testConsultant);
@@ -78,7 +79,6 @@ describe('Consultant onboarding', async () => {
           done();
         });
     });
-
 
     it('Should not be able to sign up with existing email', (done) => {
       chai.request(app)

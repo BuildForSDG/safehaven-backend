@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       phone: {
-        type: DataTypes.REAL,
+        type: DataTypes.STRING,
         unique: {
           args: true,
-          msg: 'Email Already Exist!!!'
+          msg: 'Phone Already Exist!!!'
         }
       },
       gender: DataTypes.STRING,
@@ -49,6 +49,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  User.associate = (models) => models;
+  User.associate = (models) => {
+    User.hasOne(models.Consultant, {
+      foreignKey: 'uuid',
+      as: 'consultant',
+      onDelete: 'CASCADE'
+    });
+  };
   return User;
 };
