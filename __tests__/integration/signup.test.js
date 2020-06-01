@@ -52,7 +52,6 @@ describe('Patient onboarding', async () => {
         });
     });
 
-
     it('Should not be able to sign up with existing email', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup-patient')
