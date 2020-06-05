@@ -36,59 +36,57 @@ describe('User Auth', () => {
   before(async () => { await User.create(testUser); });
   after(async () => User.destroy({ where: {}, force: true }));
 
-  describe('User Login API', () => {
-    it('Should sign in user with correct email and password', (done) => {
-      chai.request(app)
-        .post('/api/v1/auth/login')
-        .send({
-          email: 'susan.abioye@kodehauz.com',
-          password: 'Password111'
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.body.data).to.have.property('token');
-          done();
-        });
-    });
 
-    it('Should not sign in unregistered user', (done) => {
-      chai.request(app)
-        .post('/api/v1/auth/login')
-        .send({
-          email: 'rebecca.jerome@alp.com',
-          password: 'Password1113'
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(404);
-          expect(res.body.status).to.eql('error');
-          done();
-        });
-    });
-
-    it('Should not sign in a user with incorrect password', (done) => {
-      chai.request(app)
-        .post('/api/v1/auth/login')
-        .send({
-          email: 'susan.abioye@kodehauz.com',
-          password: 'Password'
-        })
-        .end((err, res) => {
-          expect(res.status).to.be.eql(400);
-          expect(res.body.status).to.eql('error');
-          done();
-        });
-    });
+  it('Should sign in user with correct email and password', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'susan.abioye@kodehauz.com',
+        password: 'Password111'
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.data).to.have.property('token');
+        done();
+      });
   });
 
-  describe('User verify API', () => {
-    it('Should not verify incorrect token', (done) => {
-      chai.request(app)
-        .get('/api/v1/auth/verification/jkkdfjkdkfjkakjfkdfkdkfkdjfkfkdjfkdkfkjdkfjkfj.jdkf/email@email.com')
-        .end((err, res) => {
-          expect(res.status).to.equal(500);
-          expect(res.body.status).to.eql('error');
-          done();
-        });
-    });
+  it('Should not sign in unregistered user', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'rebecca.jerome@alp.com',
+        password: 'Password1113'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        expect(res.body.status).to.eql('error');
+        done();
+      });
+  });
+
+  it('Should not sign in a user with incorrect password', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'susan.abioye@kodehauz.com',
+        password: 'Password'
+      })
+      .end((err, res) => {
+        expect(res.status).to.be.eql(400);
+        expect(res.body.status).to.eql('error');
+        done();
+      });
+  });
+
+
+  it('Should not verify incorrect token', (done) => {
+    chai.request(app)
+      .get('/api/v1/auth/verification/jkkdfjkdkfjkakjfkdfkdkfkdjfkfkdjfkdkfkjdkfjkfj.jdkf/email@email.com')
+      .end((err, res) => {
+        expect(res.status).to.equal(500);
+        expect(res.body.status).to.eql('error');
+        done();
+      });
   });
 });
