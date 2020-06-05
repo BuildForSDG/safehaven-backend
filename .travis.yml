@@ -9,7 +9,7 @@ cache:
   
 
 script:
-  - npm run test
+  - npm run test-a
 
 after_success:
   - npm run coverage
