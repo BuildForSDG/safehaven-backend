@@ -10,6 +10,7 @@ export default (io) => {
       socket.on('authenticate', async (data) => {
         try {
           const header = data.token;
+          console.log(header);
           user = await SocketAuth(header, socket, io);
         } catch (error) {
           console.log(error);

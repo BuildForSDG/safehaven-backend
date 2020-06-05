@@ -11,3 +11,4 @@ import './integration/signup-consultant.test';
 import './integration/get-user-profile.test';
 import './integration/consultant-profile-update.test';
 import './integration/patient-profile-update.test';
+import './integration/socket.test';
