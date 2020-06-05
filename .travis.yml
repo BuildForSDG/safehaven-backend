@@ -7,11 +7,7 @@ cache:
   directories:
     - "node_modules"
   
-
 script:
-  - npm run test-a
-
-after_success:
   - npm run coverage
 
 services:
