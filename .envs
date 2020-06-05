@@ -1,0 +1,13 @@
+# DATABASE ENV VARIABLES
+
+DATABASE_URL_DEV = postgres://mcdtoitl:gUz2JJp3-VVjWnq8XMuvVaHyZZt2HXww@drona.db.elephantsql.com:5432/mcdtoitl
+
+DATABASE_URL_TEST =  postgresql://postgres:root@localhost/safehaven
+# postgres://iscqxale:Itg3f8_bRHchIZ8lkHxZpPIPf9XofmNC@drona.db.elephantsql.com:5432/iscqxale
+DATABASE_URL_PROD = postgresql://postgres:root@localhost/safehaven
+
+# CLOUDINARY ENV VARIABLES
+
+CLOUDINARY_CLOUD_NAME = 'dydyvjqpb'
+CLOUDINARY_API_KEY = '237892289764181'
+CLOUDINARY_API_SECRET = '8X3pqx-0dCmi3ZRN-6G1ym3CYkc'
