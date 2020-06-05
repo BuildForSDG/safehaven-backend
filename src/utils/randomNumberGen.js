@@ -1,3 +1,4 @@
+/*
 export default (name = '') => {
   const chars = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'];
   // eslint-disable-next-line no-bitwise,no-unused-vars
@@ -7,3 +8,5 @@ export default (name = '') => {
   }
   return randCode;
 };
+
+*/

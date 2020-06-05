@@ -42,11 +42,13 @@ const testUserDuplicate = {
   address: 'No 34B Ewet, Housing Estate'
 };
 
+
 describe('Consultant profile update', async () => {
   let token = '';
 
   before(async () => User.destroy({ where: { email: 'susan.abioye@kodehauz.com' } }));
   before(async () => User.destroy({ where: { email: 'kk@kodeqz.com' } }));
+  before(async () => User.destroy({ where: { email: 'susan@ab2ioye.com' } }));
   before(async () => User.destroy({ where: { email: 'susan@abioye.com' } }));
   before(async () => { await User.create(testUser); });
   before(async () => { await User.create(testUserDuplicate); });
@@ -58,6 +60,9 @@ describe('Consultant profile update', async () => {
         password: 'Password111'
       })
       .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.status).to.equal('success');
+        expect(res.body.data).to.have.property('token');
         token = res.body.data.token;
         done();
       });

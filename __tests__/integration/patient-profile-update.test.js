@@ -56,9 +56,10 @@ describe('Patient profile update', async () => {
         password: 'Password111'
       })
       .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.status).to.equal('success');
+        expect(res.body.data).to.have.property('token');
         token = res.body.data.token;
-        console.log('patient token :::::::: ');
-        console.log(token);
         done();
       });
   });
