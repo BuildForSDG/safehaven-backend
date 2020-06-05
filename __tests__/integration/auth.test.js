@@ -46,6 +46,7 @@ describe('User Auth', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.eql('success');
           expect(res.body.data).to.have.property('token');
           done();
         });
@@ -61,6 +62,7 @@ describe('User Auth', () => {
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.status).to.eql('error');
+          expect(res.body.error).to.eql('User Not Found!!');
           done();
         });
     });
@@ -73,7 +75,8 @@ describe('User Auth', () => {
           password: 'Password'
         })
         .end((err, res) => {
-          expect(res.status).to.be.eql(400);
+          expect(res.status).to.eql(400);
+          expect(res.body.error).to.eql('Email or Password does not match');
           expect(res.body.status).to.eql('error');
           done();
         });
@@ -87,6 +90,7 @@ describe('User Auth', () => {
         .end((err, res) => {
           expect(res.status).to.equal(500);
           expect(res.body.status).to.eql('error');
+          expect(res.body.error).to.eql('INTERNAL SERVER ERROR');
           done();
         });
     });

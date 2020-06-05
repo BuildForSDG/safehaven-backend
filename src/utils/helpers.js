@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
+/*
 import Sequelize, {
   Op, fn, col, and
 } from 'sequelize';
@@ -122,3 +123,4 @@ const helperMethods = {
 
 };
 export default helperMethods;
+*/

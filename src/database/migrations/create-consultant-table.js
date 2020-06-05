@@ -14,6 +14,10 @@ module.exports = {
     validIdCard: {
       type: Sequelize.STRING
     },
+    credentialsVerified: {
+      type: Sequelize.BOOLEAN,
+      default: false
+    },
     certificate: {
       type: Sequelize.STRING
     },

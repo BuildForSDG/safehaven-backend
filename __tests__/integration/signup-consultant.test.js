@@ -174,6 +174,7 @@ describe('Consultant onboarding', async () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.eql('success');
           expect(res.body.data).to.eql('operation successful');
           done();
         });
@@ -187,6 +188,7 @@ describe('Consultant onboarding', async () => {
         .set('authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.eql('success');
           expect(res.body.data).to.be.an('Array');
           done();
         });

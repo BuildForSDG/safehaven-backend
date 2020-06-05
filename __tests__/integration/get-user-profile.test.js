@@ -43,6 +43,8 @@ describe('users should be able to view profile(s)', () => {
       })
       .end((err, res) => {
         token = res.body.data.token;
+        expect(res.status).to.equal(200);
+        expect(res.body.status).to.equal('success');
         done();
       });
   });
@@ -53,6 +55,7 @@ describe('users should be able to view profile(s)', () => {
         .get(`/api/v1/profile/${end}`)
         .end((err, res) => {
           expect(res.status).to.equal(404);
+          expect(res.body.status).to.equal('error');
           done();
         });
     });
@@ -62,6 +65,7 @@ describe('users should be able to view profile(s)', () => {
         .get(`/api/v1/profile/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.equal('success');
           expect(res.body.data).to.have.property('email');
           done();
         });
@@ -72,6 +76,7 @@ describe('users should be able to view profile(s)', () => {
         .get(`/api/v1/profile/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.equal('success');
           expect(res.body.data).to.have.property('email');
           done();
         });
@@ -84,6 +89,7 @@ describe('users should be able to view profile(s)', () => {
           console.log('res.body.data[0]');
           console.log(res.body.data[0]);
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.equal('success');
           expect(res.body.data.length).to.above(0);
           done();
         });
@@ -112,6 +118,8 @@ describe('users should be able to view profile(s)', () => {
       })
       .end((err, res) => {
         token = res.body.data.token;
+        expect(res.status).to.equal(200);
+        expect(res.body.status).to.equal('success');
         done();
       });
   });
@@ -132,6 +140,7 @@ describe('users should be able to view profile(s)', () => {
         .get(`/api/v1/profile/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.equal('success');
           expect(res.body.data).to.have.property('email');
           done();
         });
@@ -142,6 +151,7 @@ describe('users should be able to view profile(s)', () => {
         .get(`/api/v1/consultants/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.equal('success');
           expect(res.body.data[0]).to.have.property('email');
           done();
         });
@@ -152,6 +162,7 @@ describe('users should be able to view profile(s)', () => {
         .get(`/api/v1/profile/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.status).to.equal('success');
           expect(res.body.data).to.have.property('email');
           done();
         });

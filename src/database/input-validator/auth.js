@@ -14,6 +14,8 @@ const emailIsTaken = async (email) => {
 
 const notOwnNumber = async (phone, email) => {
   const user = await User.findOne({ where: { email, phone } });
+  console.log(notOwnNumber);
+  console.log(!user);
   return !user;
 };
 
