@@ -55,11 +55,12 @@ const consultantDetails = {
   updatedAt: new Date()
 };
 
-describe('Consultant profile update', async () => {
-  let token = '';
+describe('Admin validate consultant', async () => {
+  let adminToken = '';
+  let userToken = '';
 
-  before(async () => User.destroy({ where: { email: 'olifedayo94@gmail.com' } }));
-  before(async () => User.destroy({ where: { email: 'susan@abioye.com' } }));
+  before(async () => { await User.destroy({ where: {}, force: true }); });
+  before(async () => { await Consultant.destroy({ where: {}, force: true }); });
   before(async () => { await User.create(testUser); });
   before(async () => { await User.create(testConsultant); });
   before(async () => { await Consultant.create(consultantDetails); });
@@ -71,7 +72,20 @@ describe('Consultant profile update', async () => {
         password: 'Password111'
       })
       .end((err, res) => {
-        token = res.body.data.token;
+        adminToken = res.body.data.token;
+        done();
+      });
+  });
+
+  before((done) => {
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'susan.abioya@kodehauz.com',
+        password: 'Password112'
+      })
+      .end((err, res) => {
+        userToken = res.body.data.token;
         done();
       });
   });
@@ -79,86 +93,24 @@ describe('Consultant profile update', async () => {
   describe('Admin can validate a consultant', () => {
     it('Should be able to validate a consultant when the role is admin', (done) => {
       chai.request(app)
-        .put(`admin/validate-consultant-credentials/:${testConsultant.uuid}`)
+        .put(`/api/v1/admin/validate-consultant-credentials/${testConsultant.uuid}`)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.status).to.equal('success');
-          expect(res.body.data).to.equal('Account Succesfully updated');
+          expect(res.body.data).to.equal('Consultant has been verified successfully');
           done();
         });
     });
 
-    it('Should not be able to update profile with invalid token', (done) => {
+    it('Should not be able to validate consultant when the role is not admin', (done) => {
       chai.request(app)
-        .patch(`/api/v1/profile/${token}akjkjkja`)
-        .field('surName', 'Olaf')
-        .field('firstName', 'Jeremy')
-        .field('middleName', 'Mason')
-        .field('email', 'kk@kodehassqz.com')
-        .field('phone', '07015271191')
-        .field('specialization', 'Psychologist')
-        .field('gender', 'male')
+        .put(`/api/v1/admin/validate-consultant-credentials/${testConsultant.uuid}`)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.eql('error');
-          done();
-        });
-    });
-
-    it('Should not be able to update with existing users phone', (done) => {
-      chai.request(app)
-        .patch(`/api/v1/profile/${token}`)
-        .field('surName', 'Olaf')
-        .field('firstName', 'Jeremy')
-        .field('middleName', 'Mason')
-        .field('email', 'jabat98898h@gmail.com')
-        .field('phone', '070122221001')
-        .field('specialization', 'Psychologist')
-        .field('gender', 'male')
-        .end((err, res) => {
-          console.log(res.body);
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.eql('error');
-          expect(res.body.error.msg).to.eql('Phone already in use');
-          expect(res.body.error.param).to.eql('phone');
-          done();
-        });
-    });
-
-    it('Should not be able to update with existing users email', (done) => {
-      chai.request(app)
-        .patch(`/api/v1/profile/${token}`)
-        .field('surName', 'Olaf')
-        .field('firstName', 'Jeremy')
-        .field('middleName', 'Mason')
-        .field('email', 'susan@ab2ioye.com')
-        .field('phone', '07012129912')
-        .field('specialization', 'Psychologist')
-        .field('gender', 'male')
-        .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.eql('error');
-          expect(res.body.error.msg).to.eql('E-mail already in use');
-          expect(res.body.error.param).to.eql('email');
-          done();
-        });
-    });
-
-    it('Should be prompted to input correct email format on incorrect email format', (done) => {
-      chai.request(app)
-        .patch(`/api/v1/profile/${token}`)
-        .field('surName', 'Olaf')
-        .field('firstName', 'Jeremy')
-        .field('middleName', 'Mason')
-        .field('email', 'kkkodehauz.com')
-        .field('phone', '070132298411')
-        .field('specialization', 'Psychologist')
-        .field('gender', 'male')
-        .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.eql('error');
-          expect(res.body.error.msg).to.eql('Invalid value');
-          expect(res.body.error.param).to.eql('email');
+          expect(res.status).to.equal(409);
+          expect(res.body.status).to.equal('error');
+          expect(res.body.error).to.equal('Access denied');
           done();
         });
     });
