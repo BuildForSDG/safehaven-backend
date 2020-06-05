@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import 'chai/register-should';
 import auth from '../../src/database/input-validator/auth';
 import model from '../../src/models';
 import { hashPassword } from '../../src/utils/passwordHash';
