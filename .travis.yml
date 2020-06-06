@@ -20,8 +20,8 @@ addons:
       - postgresql-client-12
 env:
   global:
-    - PGPORT=5433
-    - DATABASE_URL_TEST=postgres://postgres@127.0.0.1:5433/safehaven
+    - PGPORT=5432
+    - DATABASE_URL_TEST=postgres://postgres@127.0.0.1:5432/safehaven
 before_script:
  - npm install
  - psql -c 'create database safehaven;' -U postgres
