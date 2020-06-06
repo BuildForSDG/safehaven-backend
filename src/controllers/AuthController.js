@@ -126,7 +126,7 @@ const AuthController = {
           }
         }
       );
-      return sendSuccessResponse(res, 200, 'Your account has been verified successfully');
+      return res.redirect(301, `${process.env.HOME_PAGE}`);
     } catch (e) {
       console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
