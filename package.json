@@ -33,7 +33,8 @@
     "db:generate:model": "npx sequelize model:generate",
     "db:seed:undo": "npx sequelize db:seed:undo",
     "coverage": "cross-env NODE_ENV=test nyc npm run test && nyc report --reporter=text-lcov | coveralls --exit",
-    "test-a": "cross-env NODE_ENV=test nyc npm run test"
+    "test-a": "cross-env NODE_ENV=test nyc npm run test",
+    "migrate-test":"cross-env NODE_ENV=test npm run db:migrate:undo && npm run db:migrate:test"
   },
   "author": {
     "name": "Build For SDG",

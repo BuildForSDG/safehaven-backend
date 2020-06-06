@@ -9,7 +9,7 @@ cache:
   
 script:
   - npm run coverage
-  - npm run test-a
+  - npm run migrate-test
 
 services:
 - postgresql
