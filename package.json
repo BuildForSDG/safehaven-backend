@@ -32,7 +32,7 @@
     "db:seed:all": "npx sequelize-cli db:seed:all",
     "db:generate:model": "npx sequelize-cli model:generate",
     "db:seed:undo": "npx sequelize-cli db:seed:undo",
-    "coverage": "cross-env NODE_ENV=test nyc npm run test && nyc report --reporter=text-lcov | coveralls --exit",
+    "coverage": "cross-env NODE_ENV=test nyc npm run test && nyc report --reporter=lcov --reporter=text-lcov | coveralls --exit",
     "test-a": "cross-env NODE_ENV=test nyc npm run test"
   },
   "author": {

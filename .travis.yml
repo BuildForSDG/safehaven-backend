@@ -12,7 +12,16 @@ script:
 
 services:
 - postgresql
-
+addons:
+  postgresql: '12'
+  apt:
+    packages:
+      - postgresql-12
+      - postgresql-client-12
+env:
+  global:
+    - PGPORT=5433
+    - DATABASE_URL_TEST=postgres://postgres@127.0.0.1:5433/safehaven
 before_script:
  - npm install
  - psql -c 'create database safehaven;' -U postgres
