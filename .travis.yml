@@ -18,9 +18,6 @@ addons:
     packages:
       - postgresql-10
       - postgresql-client-10
-env:
-  global:
-    - PGPORT=5433
 before_script:
  - npm install
  - psql -c 'create database safehaven;' -U postgres
