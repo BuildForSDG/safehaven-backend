@@ -13,11 +13,11 @@ script:
 services:
 - postgresql
 addons:
-  postgresql: '9'
+  postgresql: '12'
   apt:
     packages:
-      - postgresql-9
-      - postgresql-client-9
+      - postgresql-12
+      - postgresql-client-12
 env:
   global:
     - PGPORT=5432
