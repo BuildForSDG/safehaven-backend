@@ -99,7 +99,7 @@ validator.updateProfile = [
   body('firstName').not().isEmpty().isLength({ min: 2 }),
   body('surName').not().isEmpty().isLength({ min: 2 }),
   body('middleName'),
-  body('gender').isIn('male', 'female', 'not specified'),
+  body('gender').isIn(['male', 'female', 'not specified']),
   body('specialization'),
   body('conditions'),
   body('phone').not().isEmpty().isLength({ min: 8 })
