@@ -8,8 +8,7 @@ cache:
     - "node_modules"
   
 script:
-  - npm run coverage
-  - npm run migrate-test
+  - npm run test-a
 
 services:
 - postgresql
