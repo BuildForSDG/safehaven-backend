@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     user_uuid: DataTypes.UUID,
     specialization: DataTypes.STRING,
     validIdCard: DataTypes.STRING,
-    certificate: DataTypes.STRING
+    certificate: DataTypes.STRING,
+    credentialsVerified: DataTypes.BOOLEAN
   }, {});
   Consultant.associate = (models) => {
     Consultant.belongsTo(models.User, {

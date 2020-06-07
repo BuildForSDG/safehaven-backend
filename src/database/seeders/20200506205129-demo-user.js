@@ -54,47 +54,9 @@ export default {
         address: 'No 34B Ewet, Housing Estate',
         createdAt: Sequelize.literal('NOW()'),
         updatedAt: Sequelize.literal('NOW()')
-      },
-      {
-        uuid: 'a98047fc-a0d8-4fd9-aebc-d860a8fc1871',
-        surName: 'James',
-        firstName: 'Olsen',
-        middleName: 'lovisgod',
-        email: 'olifedayoa94@gmail.com',
-        phone: '0889899000',
-        password: hashPassword('Password111'),
-        gender: 'male',
-        dateOfBirth: '05/06/1994',
-        nationality: 'Nigerian',
-        avatar: null,
-        stateOfOrigin: null,
-        address: 'No 34B Ewet, Housing Estate',
-        verified: true,
-        role: 'patient',
-        createdAt: Sequelize.literal('NOW()'),
-        updatedAt: Sequelize.literal('NOW()')
-      },
-      {
-        uuid: '4a53f33a-e1c0-4617-bbab-5702e2ea862a',
-        surName: 'James',
-        firstName: 'Tatois',
-        middleName: 'lovisgod',
-        email: 'olifedayoaa94@gmail.com',
-        phone: '08165650000',
-        password: hashPassword('Password111'),
-        gender: 'male',
-        dateOfBirth: '05/06/1994',
-        nationality: 'Nigerian',
-        avatar: null,
-        stateOfOrigin: null,
-        address: 'No 34B Ewet, Housing Estate',
-        verified: true,
-        role: 'patient',
-        createdAt: Sequelize.literal('NOW()'),
-        updatedAt: Sequelize.literal('NOW()')
       }
     ];
-    return queryInterface.bulkInsert('Users', UsersData, {});
+    return queryInterface.bulkInsert('Users', UsersData, { validate: true, ignoreDuplicates: true });
   },
   // eslint-disable-next-line arrow-parens
   down: async (queryInterface) => queryInterface.bulkDelete('Users', null, {})

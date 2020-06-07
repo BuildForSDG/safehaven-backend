@@ -14,6 +14,7 @@ const socketAuth = async (token, socket, io) => {
       }
     });
     if (!user) io.to(socket.id).emit('login_error', { message: 'User not found please sign up' });
+    io.to(socket.id).emit('login_success', { message: 'connection successful' });
     return user.dataValues;
   } catch (e) {
     console.log(e);
