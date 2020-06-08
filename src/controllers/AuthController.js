@@ -98,6 +98,7 @@ const AuthController = {
         return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
       }
     } catch (e) {
+      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
