@@ -27,8 +27,7 @@ validator.patientSignup = [
   body('surName').not().isEmpty().isLength({ min: 2 }),
   body('middleName'),
   body('password').not().isEmpty().isLength({ min: 8 }),
-  body('gender').isIn('male', 'female', 'not specified'),
-  body('role', 'invalid user role').isIn('patient', 'admin', 'consultant'),
+  body('role', 'invalid user role').isIn(['patient', 'admin', 'consultant']),
   body('conditions').not().isEmpty(),
   body('phone').not().isEmpty().isLength({ min: 8 })
     .isNumeric()
@@ -51,8 +50,7 @@ validator.consultantSignup = [
   body('firstName').not().isEmpty().isLength({ min: 2 }),
   body('surName').not().isEmpty().isLength({ min: 2 }),
   body('password').not().isEmpty().isLength({ min: 8 }),
-  body('gender').isIn('male', 'female', 'not specified'),
-  body('role', 'invalid user role').isIn('patient', 'admin', 'consultant'),
+  body('role', 'invalid user role').isIn(['patient', 'admin', 'consultant']),
   body('specialization').not().isEmpty(),
   body('phone').not().isEmpty().isLength({ min: 8 })
     .isNumeric()
