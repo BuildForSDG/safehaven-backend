@@ -76,7 +76,6 @@ describe('Socket connection and functions', async () => {
       const clientx = io.connect(socketURL, options);
 
       clientx.on('login_success', (response) => {
-        console.log('this is here');
         expect(response.message).to.eql('connection successful');
       });
       // eslint-disable-next-line no-unused-vars

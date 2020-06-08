@@ -47,7 +47,7 @@ const testConsultant = {
 
 const consultantDetails = {
   uuid: '46204aae-fb3b-4d73-b9dd-725d70078191',
-  user_uuid: 'b38fcf44-b77f-4149-8d66-454d7a5eacdc',
+  userUuid: 'b38fcf44-b77f-4149-8d66-454d7a5eacdc',
   specialization: 'psychologist',
   certificate: 'demo_url',
   validIdCard: 'demo_url',

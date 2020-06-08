@@ -57,16 +57,12 @@ describe('Patient profile update', async () => {
       })
       .end((err, res) => {
         token = res.body.data.token;
-        console.log('patient token :::::::: ');
-        console.log(token);
         done();
       });
   });
 
   describe('User can update personal profile', () => {
     it('Should be able to update profile with valid token', (done) => {
-      console.log('token :::::::: ');
-      console.log(token);
       chai.request(app)
         .patch(`/api/v1/profile/${token}`)
         .field('surName', 'Olaf')

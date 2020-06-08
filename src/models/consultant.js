@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Consultant.associate = (models) => {
     Consultant.belongsTo(models.User, {
-      foreignKey: 'user_uuid',
+      foreignKey: 'userUuid',
       onDelete: 'CASCADE'
     });
   };

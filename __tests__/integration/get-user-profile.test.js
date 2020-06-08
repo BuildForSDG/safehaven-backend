@@ -81,8 +81,6 @@ describe('users should be able to view profile(s)', () => {
       chai.request(app)
         .get(`/api/v1/patients/${token}`)
         .end((err, res) => {
-          console.log('res.body.data[0]');
-          console.log(res.body.data[0]);
           expect(res.status).to.equal(200);
           expect(res.body.data.length).to.above(0);
           done();

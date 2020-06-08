@@ -179,7 +179,7 @@ const AuthController = {
       // check if user exist
       const user = await User.findOne({ where: { uuid: consultantUuid } });
       if (!user) return sendErrorResponse(res, 404, 'user is not available');
-      const consultant = await Consultant.findOne({ where: { user_uuid: consultantUuid } });
+      const consultant = await Consultant.findOne({ where: { userUuid: consultantUuid } });
       if (!consultant) return sendErrorResponse(res, 404, 'user is not available');
       // if it passes all the validation
       await consultant.update(

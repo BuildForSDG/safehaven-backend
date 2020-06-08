@@ -111,7 +111,6 @@ describe('Consultant profile update', async () => {
         .field('specialization', 'Psychologist')
         .field('gender', 'male')
         .end((err, res) => {
-          console.log(res.body);
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
           expect(res.body.error.msg).to.eql('Phone already in use');
