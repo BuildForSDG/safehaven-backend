@@ -90,7 +90,6 @@ describe('Consultant onboarding', async () => {
         .field('specialization', 'psychologist')
         .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
-        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
