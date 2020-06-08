@@ -132,7 +132,7 @@ const AuthController = {
           }
         }
       );
-      return sendSuccessResponse(res, 200, 'Your account has been verified successfully');
+      return res.redirect(301, `${process.env.HOME_PAGE}`);
     } catch (e) {
       console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
@@ -150,7 +150,6 @@ const AuthController = {
         // eslint-disable-next-line no-unused-vars
         provider
       } = user;
-
       const checkUser = await User.findOne({ where: { password: social_id } });
       if (checkUser) return sendSuccessResponse(res, 200, userToken(checkUser));
 

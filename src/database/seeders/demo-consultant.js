@@ -2,7 +2,17 @@ export default {
   async up(queryInterface, Sequelize) {
     const UsersData = [
       {
-        uuid: '009e1cbe-c2cb-4b74-9601-336efbafef47',
+        uuid: '46204aae-fb3b-4d73-b9dd-725d70078191',
+        user_uuid: '46204aae-fb3b-4d73-b9dd-725d70078191',
+        specialization: 'psychologist',
+        certificate: 'demo_url',
+        validIdCard: 'demo_url',
+        createdAt: Sequelize.literal('NOW()'),
+        updatedAt: Sequelize.literal('NOW()')
+      },
+      {
+        uuid: 'f75795cf-845a-4f94-823c-261717d661be',
+        user_uuid: 'f75795cf-845a-4f94-823c-261717d661be',
         specialization: 'psychologist',
         certificate: 'demo_url',
         validIdCard: 'demo_url',
@@ -10,7 +20,7 @@ export default {
         updatedAt: Sequelize.literal('NOW()')
       }
     ];
-    return queryInterface.bulkInsert('Consultant', UsersData, {});
+    return queryInterface.bulkInsert('Consultants', UsersData, {});
   },
-  down: async (queryInterface) => queryInterface.bulkDelete('Consultant', null, {})
+  down: async (queryInterface) => queryInterface.bulkDelete('Consultants', null, {})
 };

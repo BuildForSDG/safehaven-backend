@@ -1,0 +1,17 @@
+language: node_js
+
+node_js:
+  - "stable"
+
+cache:
+  directories:
+    - "node_modules"
+  
+script:
+  - npm run coverage
+
+services:
+- postgresql
+
+before_script:
+ - psql -c 'create database safehaven;' -U postgres

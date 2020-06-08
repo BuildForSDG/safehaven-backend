@@ -3,10 +3,9 @@ module.exports = {
     uuid: {
       allowNull: false,
       primaryKey: true,
-      type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4
+      type: Sequelize.UUID
     },
-    userUuid: {
+    user_uuid: {
       type: Sequelize.UUID
     },
     specialization: {

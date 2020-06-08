@@ -1,5 +1,5 @@
 {
-  "name": "SafeHaven",
+  "name": "safehaven",
   "version": "0.0.1",
   "description": "A SafeHaven Project",
   "keywords": [
@@ -13,7 +13,7 @@
     "test": "__tests__"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test npm run db:migrate:undo && npm run db:migrate && nyc mocha --no-timeout './__tests__/index.js' --exit",
+    "test": "cross-env NODE_ENV=test npm run db:migrate:undo && npm run db:migrate:test && npm run db:seed:all:test && nyc mocha --no-timeout './__tests__/index.js' --exit",
     "test:no-migrate": "cross-env NODE_ENV=test && nyc mocha --no-timeout './__tests__/index.js' --exit",
     "test:report": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 './__tests__/index.js' --exit",
     "lint": "eslint \"src/**/*.js\"",
@@ -27,7 +27,7 @@
     "db:seed:all": "npx sequelize-cli db:seed:all",
     "db:generate:model": "npx sequelize-cli model:generate",
     "db:seed:undo": "npx sequelize-cli db:seed:undo",
-    "coverage": "cross-env NODE_ENV=test nyc npm run test && nyc report --reporter=lcov --reporter=text-lcov --exit",
+    "coverage": "cross-env NODE_ENV=test nyc npm run test && nyc report --reporter=text-lcov | coveralls --exit",
     "test-a": "cross-env NODE_ENV=test nyc npm run test"
   },
   "author": {
@@ -82,10 +82,6 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
-    "@babel/node": "^7.5.5",
-    "@babel/register": "^7.5.5",
     "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",

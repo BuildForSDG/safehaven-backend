@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     validIdCard: DataTypes.STRING,
     certificate: DataTypes.STRING
   }, {});
-  Consultant.associate = (models) => models;
+  Consultant.associate = (models) => {
+    Consultant.belongsTo(models.User, {
+      foreignKey: 'user_uuid',
+      onDelete: 'CASCADE'
+    });
+  };
   return Consultant;
 };
