@@ -49,14 +49,14 @@ const AuthController = {
   async signupPatient(req, res) {
     try {
       const {
-        firstName, surName, middleName, email, gender, phone, conditions, role
+        firstName, surName, email, phone, conditions, role
       } = req.body;
       let { password } = req.body;
       password = hashPassword(password);
 
       try {
         const user = {
-          firstName, surName, middleName, email, gender, password, phone, conditions, role
+          firstName, surName, email, password, phone, conditions, role
         };
         await User.create(user);
         const emailToken = createToken({ email });
@@ -71,22 +71,21 @@ const AuthController = {
   },
 
   async signupConsultant(req, res) {
-    if (!(req.files.validIdCard && req.files.validCertificate)) {
+    if (!(req.files.validIdCard || req.files.validCertificate)) {
       return sendErrorResponse(res, 422, 'Please select certificate and id card to upload');
     }
 
     try {
       const userUuid = v4();
       const {
-        firstName, surName, email, gender, phone, specialization
+        firstName, surName, email, phone, specialization, role
       } = req.body;
       const password = hashPassword(req.body.password);
       try {
         const user = {
-          firstName, surName, email, gender, password, phone
+          firstName, surName, email, password, phone, role
         };
         user.uuid = userUuid;
-        user.avatar = await imageUploader('validIdCard', req.files.avatar);
         const emailToken = createToken({ email });
         const consultant = { role: 'consultant' };
         consultant.specialization = specialization;
