@@ -168,6 +168,30 @@ const AuthController = {
       console.log(e);
       return sendErrorResponse(res, 500, 'Server error, contact admin to resolve issue');
     }
+  },
+  async verifyConsultantCredentials(req, res) {
+    try {
+      // extracting the token and id from the query
+      const { consultantUuid } = req.params;
+      const { role } = req.userData;
+
+      if (role !== 'admin') return sendErrorResponse(res, 409, 'Access denied');
+      // check if user exist
+      const user = await User.findOne({ where: { uuid: consultantUuid } });
+      if (!user) return sendErrorResponse(res, 404, 'user is not available');
+      const consultant = await Consultant.findOne({ where: { user_uuid: consultantUuid } });
+      if (!consultant) return sendErrorResponse(res, 404, 'user is not available');
+      // if it passes all the validation
+      await consultant.update(
+        {
+          credentialsVerified: true
+        }
+      );
+      return sendSuccessResponse(res, 200, 'Consultant has been verified successfully');
+    } catch (e) {
+      console.log(e);
+      return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
+    }
   }
 };
 

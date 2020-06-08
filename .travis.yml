@@ -8,10 +8,16 @@ cache:
     - "node_modules"
   
 script:
-  - npm run coverage
+  - npm run test-a
 
 services:
 - postgresql
-
+addons:
+  postgresql: '10'
+  apt:
+    packages:
+      - postgresql-10
+      - postgresql-client-10
 before_script:
+ - npm install
  - psql -c 'create database safehaven;' -U postgres
