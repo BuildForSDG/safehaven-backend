@@ -71,7 +71,7 @@ const AuthController = {
   },
 
   async signupConsultant(req, res) {
-    if (!(req.files.validIdCard && req.files.validCertificate)) {
+    if (!(req.files.validIdCard || req.files.validCertificate)) {
       return sendErrorResponse(res, 422, 'Please select certificate and id card to upload');
     }
 
