@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Consultant = sequelize.define('Consultant', {
     uuid: DataTypes.UUID,
+    userUuid: DataTypes.UUID,
     specialization: DataTypes.STRING,
     validIdCard: DataTypes.STRING,
     certificate: DataTypes.STRING

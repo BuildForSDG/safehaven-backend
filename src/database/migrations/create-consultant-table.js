@@ -1,13 +1,10 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Consultants', {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: Sequelize.INTEGER
-    },
     uuid: {
+      type: Sequelize.UUID
+    },
+    userUuid: {
       type: Sequelize.UUID
     },
     specialization: {
