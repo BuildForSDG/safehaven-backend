@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-dynamic-require */
 
 const fs = require('fs');
