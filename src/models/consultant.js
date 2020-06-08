@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
-    user_uuid: DataTypes.UUID,
+    userUuid: DataTypes.UUID,
     specialization: DataTypes.STRING,
     validIdCard: DataTypes.STRING,
     certificate: DataTypes.STRING,
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Consultant.associate = (models) => {
     Consultant.belongsTo(models.User, {
-      foreignKey: 'user_uuid',
+      foreignKey: 'userUuid',
       onDelete: 'CASCADE'
     });
   };

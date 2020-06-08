@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import model from '../models';
 import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
 import { hashPassword, comparePassword } from '../utils/passwordHash';
@@ -75,6 +76,7 @@ const AuthController = {
     }
 
     try {
+      const userUuid = v4();
       const {
         firstName, surName, email, gender, phone, specialization
       } = req.body;
@@ -83,21 +85,25 @@ const AuthController = {
         const user = {
           firstName, surName, email, gender, password, phone
         };
+        user.uuid = userUuid;
         user.avatar = await imageUploader('validIdCard', req.files.avatar);
         const emailToken = createToken({ email });
         const consultant = { role: 'consultant' };
         consultant.specialization = specialization;
         consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
         consultant.validIdCard = await imageUploader('validCertificate', req.files.validCertificate);
+        consultant.userUuid = user.uuid;
 
-        await Consultant.create(consultant);
         await User.create(user);
+        await Consultant.create(consultant);
         await SendMail(email, emailToken);
         return sendSuccessResponse(res, 200, 'User account succesfully created');
       } catch (e) {
+        console.log(e);
         return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
       }
     } catch (e) {
+      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
@@ -144,7 +150,6 @@ const AuthController = {
         // eslint-disable-next-line no-unused-vars
         provider
       } = user;
-      console.log(user);
       const checkUser = await User.findOne({ where: { password: social_id } });
       if (checkUser) return sendSuccessResponse(res, 200, userToken(checkUser));
 
@@ -174,7 +179,7 @@ const AuthController = {
       // check if user exist
       const user = await User.findOne({ where: { uuid: consultantUuid } });
       if (!user) return sendErrorResponse(res, 404, 'user is not available');
-      const consultant = await Consultant.findOne({ where: { user_uuid: consultantUuid } });
+      const consultant = await Consultant.findOne({ where: { userUuid: consultantUuid } });
       if (!consultant) return sendErrorResponse(res, 404, 'user is not available');
       // if it passes all the validation
       await consultant.update(
