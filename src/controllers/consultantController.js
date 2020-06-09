@@ -11,7 +11,7 @@ const ConsultantController = {
       const { uuid } = await verifyToken(req.params.token);
 
       const consultant = await User.findOne({
-        include: { model: Consultant, as: 'consultant' },
+        include: [{ model: Consultant, as: 'consultant' }],
         attributes: { exclude: ['password', 'updatedAt'] },
         where: { uuid }
       });
@@ -43,7 +43,7 @@ const ConsultantController = {
   async getAllConsultants(req, res) {
     try {
       const consultant = await User.findAll({
-        include: { model: Consultant, as: 'consultant' },
+        include: [{ model: Consultant, as: 'consultant' }],
         attributes: { exclude: ['password', 'updatedAt'] },
         where: { role: 'consultant' }
       });
