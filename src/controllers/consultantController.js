@@ -2,7 +2,7 @@ import model from '../models';
 import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
 import { verifyToken } from '../utils/processToken';
 
-const { User, Consultant, AvailableTime } = model;
+const { User, AvailableTime } = model;
 
 const ConsultantController = {
 
@@ -11,7 +11,7 @@ const ConsultantController = {
       const { uuid } = await verifyToken(req.params.token);
 
       const consultant = await User.findOne({
-        include: [{ model: Consultant, as: 'consultant' }],
+        include: { all: true },
         attributes: { exclude: ['password', 'updatedAt'] },
         where: { uuid }
       });
@@ -43,7 +43,7 @@ const ConsultantController = {
   async getAllConsultants(req, res) {
     try {
       const consultant = await User.findAll({
-        include: [{ model: Consultant, as: 'consultant' }],
+        include: { all: true },
         attributes: { exclude: ['password', 'updatedAt'] },
         where: { role: 'consultant' }
       });
