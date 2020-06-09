@@ -1,6 +1,7 @@
 import model from '../models';
 import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
 import { verifyToken } from '../utils/processToken';
+import imageUploader from '../services/imageuploader';
 
 const { User } = model;
 
@@ -21,12 +22,18 @@ const PatientController = {
   async updateProfile(req, res) {
     try {
       const {
-        firstName, surName, email, phone,
-        dateOfBirth, nationality, avatar, stateOfOrigin, address
+        firstName, surName, email, phone, gender,
+        dateOfBirth, nationality, stateOfOrigin, address
       } = req.body;
       const user = {
-        firstName, surName, email, phone, dateOfBirth, nationality, avatar, stateOfOrigin, address
+        firstName, surName, email, phone, dateOfBirth, nationality, stateOfOrigin, address, gender
       };
+      console.log('req.files.avatar');
+      console.log(req.files.avatar);
+      if (req.files.avatar !== undefined) {
+        user.avatar = await imageUploader('avatar', req.files.avatar);
+      }
+
       const { uuid } = await verifyToken(req.params.token);
       await User.update(user, { where: { uuid } });
       return sendSuccessResponse(res, 200, 'Account Succesfully updated');

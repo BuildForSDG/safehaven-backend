@@ -4,7 +4,6 @@ import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
 import { hashPassword, comparePassword } from '../utils/passwordHash';
 import { createToken, verifyToken } from '../utils/processToken';
 import { SendMail } from '../services/emailsender';
-import imageUploader from '../services/imageuploader';
 
 const { User, Consultant } = model;
 
@@ -71,10 +70,6 @@ const AuthController = {
   },
 
   async signupConsultant(req, res) {
-    if (!(req.files.validIdCard || req.files.validCertificate)) {
-      return sendErrorResponse(res, 422, 'Please select certificate and id card to upload');
-    }
-
     try {
       const userUuid = v4();
       const {
@@ -83,14 +78,12 @@ const AuthController = {
       const password = hashPassword(req.body.password);
       try {
         const user = {
-          firstName, surName, email, password, phone, role
+          firstName, surName, email, password, phone, role, verified: true
         };
         user.uuid = userUuid;
         const emailToken = createToken({ email });
         const consultant = { role: 'consultant' };
         consultant.specialization = specialization;
-        consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
-        consultant.validIdCard = await imageUploader('validCertificate', req.files.validCertificate);
         consultant.userUuid = user.uuid;
 
         await User.create(user);
@@ -188,7 +181,6 @@ const AuthController = {
       );
       return sendSuccessResponse(res, 200, 'Consultant has been verified successfully');
     } catch (e) {
-      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   }

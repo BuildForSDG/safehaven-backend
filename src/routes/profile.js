@@ -9,7 +9,7 @@ import { verifyToken } from '../utils/processToken';
 const { PreventDuplicateContactEdit } = validator;
 const profileRouter = express.Router();
 
-profileRouter.patch('/profile/:token', imageUpload.none, validator.updateProfile, validateRequest, PreventDuplicateContactEdit,
+profileRouter.patch('/profile/:token', imageUpload.profileUpdate, validator.updateProfile, validateRequest, PreventDuplicateContactEdit,
   (req, res) => {
     const { token } = req.params;
     const payload = verifyToken(token);
