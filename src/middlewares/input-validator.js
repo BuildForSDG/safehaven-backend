@@ -115,11 +115,11 @@ validator.PreventDuplicateContactEdit = async (req, res, next) => {
     const notOwnNumber = await authValidator.notOwnNumber(phone, payload.email);
     const notOwnEmail = (email !== payload.email);
     if (emailIsTaken && notOwnEmail) {
-      const error = expressValidatorResponseMock(email, 'E-mail is already in use', 'email', 'body');
+      const error = expressValidatorResponseMock(email, 'E-mail already in use', 'email', 'body');
       return sendErrorResponse(res, 422, error);
     }
     if (numberIsTaken && notOwnNumber) {
-      const error = expressValidatorResponseMock(phone, 'Phone is already in use', 'phone', 'body');
+      const error = expressValidatorResponseMock(phone, 'Phone already in use', 'phone', 'body');
       return sendErrorResponse(res, 422, error);
     }
     next();
