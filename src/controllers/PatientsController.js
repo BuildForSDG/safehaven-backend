@@ -28,8 +28,6 @@ const PatientController = {
       const user = {
         firstName, surName, email, phone, dateOfBirth, nationality, stateOfOrigin, address, gender
       };
-      console.log('req.files.avatar');
-      console.log(req.files.avatar);
       if (req.files.avatar !== undefined) {
         user.avatar = await imageUploader('avatar', req.files.avatar);
       }
