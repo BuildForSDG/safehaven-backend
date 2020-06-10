@@ -91,11 +91,9 @@ const AuthController = {
         await SendMail(email, emailToken);
         return sendSuccessResponse(res, 200, 'User account succesfully created');
       } catch (e) {
-        console.log(e);
         return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
       }
     } catch (e) {
-      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
@@ -126,7 +124,6 @@ const AuthController = {
       );
       return res.redirect(301, `${process.env.HOME_PAGE}`);
     } catch (e) {
-      console.log(e);
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
   },
@@ -157,7 +154,6 @@ const AuthController = {
       });
       return sendSuccessResponse(res, 200, userToken(newUser));
     } catch (e) {
-      console.log(e);
       return sendErrorResponse(res, 500, 'Server error, contact admin to resolve issue');
     }
   },
