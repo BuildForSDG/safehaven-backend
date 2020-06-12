@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { describe, it } from 'mocha';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
@@ -73,7 +74,7 @@ describe('Patient profile update', async () => {
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
-        .attach('avatar', '')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.status).to.equal('success');
@@ -93,6 +94,7 @@ describe('Patient profile update', async () => {
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -111,6 +113,7 @@ describe('Patient profile update', async () => {
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -131,6 +134,7 @@ describe('Patient profile update', async () => {
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -151,6 +155,7 @@ describe('Patient profile update', async () => {
         .field('role', 'patient')
         .field('conditions', 'alzemhier, alopaciar, night blindness')
         .field('gender', 'male')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');

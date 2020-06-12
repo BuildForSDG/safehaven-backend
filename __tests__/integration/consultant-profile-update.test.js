@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { describe, it } from 'mocha';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
@@ -74,7 +75,9 @@ describe('Consultant profile update', async () => {
         .field('phone', '0701527121')
         .field('specialization', 'Psychologist')
         .field('gender', 'male')
-        .attach('avatar', '')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.status).to.equal('success');
@@ -93,6 +96,9 @@ describe('Consultant profile update', async () => {
         .field('phone', '07015271191')
         .field('specialization', 'Psychologist')
         .field('gender', 'male')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -110,6 +116,9 @@ describe('Consultant profile update', async () => {
         .field('phone', '070122221001')
         .field('specialization', 'Psychologist')
         .field('gender', 'male')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -129,6 +138,9 @@ describe('Consultant profile update', async () => {
         .field('phone', '07012129912')
         .field('specialization', 'Psychologist')
         .field('gender', 'male')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -148,6 +160,9 @@ describe('Consultant profile update', async () => {
         .field('phone', '070132298411')
         .field('specialization', 'Psychologist')
         .field('gender', 'male')
+        .attach('avatar', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
+        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');

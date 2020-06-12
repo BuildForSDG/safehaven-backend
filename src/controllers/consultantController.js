@@ -1,6 +1,7 @@
 import model from '../models';
 import { sendErrorResponse, sendSuccessResponse } from '../utils/sendResponse';
 import { verifyToken } from '../utils/processToken';
+import imageUploader from '../services/imageuploader';
 
 const { User, AvailableTime } = model;
 
@@ -22,16 +23,27 @@ const ConsultantController = {
     }
   },
   async updateProfile(req, res) {
+    const consultant = {};
+    const { uuid } = await verifyToken(req.params.token);
     try {
+      if (req.files.validIdCard !== undefined) {
+        consultant.validIdCard = await imageUploader('validCertificate', req.files.validCertificate);
+      }
+      if (req.files.validCertificate !== undefined) {
+        consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
+        await Consultant.update(consultant, { where: { uuid } });
+      }
+
       const {
         firstName, surName, email, phone,
-        dateOfBirth, nationality, avatar, stateOfOrigin, address
+        dateOfBirth, nationality, stateOfOrigin, gender, address
       } = req.body;
       const user = {
-        firstName, surName, email, phone, dateOfBirth, nationality, avatar, stateOfOrigin, address
+        firstName, surName, email, phone, dateOfBirth, nationality, stateOfOrigin, gender, address
       };
-
-      const { uuid } = await verifyToken(req.params.token);
+      if (req.files.avatar !== undefined) {
+        user.avatar = await imageUploader('avatar', req.files.avatar);
+      }
       await User.update(user, { where: { uuid } });
 
       return sendSuccessResponse(res, 200, 'Account Succesfully updated');
