@@ -28,7 +28,7 @@ validator.patientSignup = [
   body('middleName'),
   body('password').not().isEmpty().isLength({ min: 8 }),
   body('role', 'invalid user role').isIn(['patient', 'admin', 'consultant']),
-  body('conditions').not().isEmpty(),
+  body('conditions'),
   body('phone').not().isEmpty().isLength({ min: 8 })
     .isNumeric()
     .custom((phone) => authValidator.numberIsTaken(phone)
@@ -50,8 +50,8 @@ validator.consultantSignup = [
   body('firstName').not().isEmpty().isLength({ min: 2 }),
   body('surName').not().isEmpty().isLength({ min: 2 }),
   body('password').not().isEmpty().isLength({ min: 8 }),
-  body('role', 'invalid user role').isIn(['patient', 'admin', 'consultant']),
-  body('specialization').not().isEmpty(),
+  body('role', 'invalid user role'),
+  body('specialization'),
   body('phone').not().isEmpty().isLength({ min: 8 })
     .isNumeric()
     .custom((phone) => authValidator.numberIsTaken(phone)
@@ -109,30 +109,23 @@ validator.PreventDuplicateContactEdit = async (req, res, next) => {
   const { phone, email } = req.body;
   const { token } = req.params;
   const payload = verifyToken(token);
-
-  authValidator.emailIsTaken(email)
-    .then((emailIsTaken) => {
-      const notOwnEmail = (email !== payload.email);
-      if (emailIsTaken && notOwnEmail) {
-        const error = expressValidatorResponseMock(email, 'E-mail already in use', 'email', 'body');
-        return sendErrorResponse(res, 422, error);
-      }
-    })
-    .catch(() => sendErrorResponse(res, 422, 'SERVER ERROR'));
-
-  authValidator.numberIsTaken(phone)
-    .then((numberIsTaken) => {
-      authValidator.notOwnNumber(phone, payload.email)
-        .then((notOwnNumber) => {
-          if (numberIsTaken && notOwnNumber) {
-            const error = expressValidatorResponseMock(phone, 'Phone already in use', 'phone', 'body');
-            return sendErrorResponse(res, 422, error);
-          }
-          next();
-        })
-        .catch(() => sendErrorResponse(res, 422, 'SERVER ERROR'));
-    })
-    .catch(() => sendErrorResponse(res, 422, 'SERVER ERROR'));
+  try {
+    const emailIsTaken = await authValidator.emailIsTaken(email);
+    const numberIsTaken = await authValidator.numberIsTaken(phone);
+    const notOwnNumber = await authValidator.notOwnNumber(phone, payload.email);
+    const notOwnEmail = (email !== payload.email);
+    if (emailIsTaken && notOwnEmail) {
+      const error = expressValidatorResponseMock(email, 'E-mail already in use', 'email', 'body');
+      return sendErrorResponse(res, 422, error);
+    }
+    if (numberIsTaken && notOwnNumber) {
+      const error = expressValidatorResponseMock(phone, 'Phone already in use', 'phone', 'body');
+      return sendErrorResponse(res, 422, error);
+    }
+    next();
+  } catch (error) {
+    return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
+  }
 };
 
 export default validator;

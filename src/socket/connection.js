@@ -36,7 +36,6 @@ export default async function (socket, io, user) {
         });
       });
     } catch (error) {
-      console.log(error);
       io.to(socket.id).emit('error', { error });
     }
   });

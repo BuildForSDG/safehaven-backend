@@ -47,8 +47,6 @@ describe('Consultant onboarding', async () => {
         .field('phone', '070122271191')
         .field('specialization', 'psychologist')
         .field('role', 'consultant')
-        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
-        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.status).to.equal('success');
@@ -67,8 +65,6 @@ describe('Consultant onboarding', async () => {
         .field('phone', '070122271191')
         .field('role', 'consultant')
         .field('specialization', 'psychologist')
-        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
-        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -88,8 +84,6 @@ describe('Consultant onboarding', async () => {
         .field('phone', '070122911912')
         .field('role', 'consultant')
         .field('specialization', 'psychologist')
-        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
-        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -110,8 +104,6 @@ describe('Consultant onboarding', async () => {
         .field('phone', '07013229811')
         .field('specialization', 'psychologist')
         .field('role', 'consultant')
-        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
-        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
@@ -131,8 +123,6 @@ describe('Consultant onboarding', async () => {
         .field('password', 'Passw1')
         .field('phone', '070122297111')
         .field('specialization', 'psychologist')
-        .attach('validCertificate', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
-        .attach('validIdCard', fs.readFileSync(`${__dirname}//ayo.jpg`), `${__dirname}//ayo.jpg`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.eql('error');
