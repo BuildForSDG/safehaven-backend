@@ -4,7 +4,6 @@ import connection from './connection';
 export default (io) => {
   if (io) {
     io.on('connection', async (socket) => {
-      console.log('here', socket);
       let user;
       const { handshake } = socket;
       socket.on('authenticate', async (data) => {
@@ -18,7 +17,6 @@ export default (io) => {
       if (handshake.headers.authorization) {
         const header = handshake.headers.authorization;
         if (header) {
-          console.log(header);
           user = await SocketAuth(header, socket, io);
         }
       }

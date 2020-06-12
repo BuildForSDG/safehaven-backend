@@ -36,13 +36,17 @@ const verificationEmail = (link) => `<!DOCTYPE html>
             margin: 3rem auto;
             font-size: 1.5rem;
         }
+        b {
+          color: #fff;
+          margin: 1rem auto;
+        }
         p {
             margin-bottom: 2rem;
         }
         .enquiry {
             padding-top: 1rem;
             border-top: solid 1px #fff;
-            width: 70%;
+            width: 80%;
             margin: auto;
         }
         .heading {
