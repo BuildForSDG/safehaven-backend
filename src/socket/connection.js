@@ -33,6 +33,8 @@ export default async function (socket, io, user) {
             connection_uuid: connection.uuid
           });
           await io.to(connection.uuid).emit('conversation', { chatReturned });
+          await helperMethods.saveNotifications({ user_uuid: otherUuid, message: `You have a new message from ${senderName}` });
+          await socket.to(connection.uuid).emit('notification', { chat: chatReturned, message: `You have a new message from ${senderName}` });
         });
       });
     } catch (error) {
