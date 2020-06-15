@@ -5,7 +5,9 @@ import Sequelize, {
 } from 'sequelize';
 import models from '../models';
 
-const { Connection, User, Chat } = models;
+const {
+  Connection, User, Chat, Notification
+} = models;
 
 const helperMethods = {
 
@@ -118,6 +120,11 @@ const helperMethods = {
   async saveChats(data) {
     const chat = await Chat.create(data);
     return chat;
+  },
+
+  async saveNotifications(data) {
+    const notification = await Notification.create(data);
+    return notification;
   }
 
 };
