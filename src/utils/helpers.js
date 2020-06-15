@@ -5,7 +5,9 @@ import Sequelize, {
 } from 'sequelize';
 import models from '../models';
 
-const { Connection, User, Chat, Notification } = models;
+const {
+  Connection, User, Chat, Notification
+} = models;
 
 const helperMethods = {
 
