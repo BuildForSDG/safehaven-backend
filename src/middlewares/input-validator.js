@@ -128,4 +128,17 @@ validator.PreventDuplicateContactEdit = async (req, res, next) => {
   }
 };
 
+validator.BookAppointment = [
+  param('token')
+    .custom((token) => {
+      const payload = verifyToken(token);
+      if (!(payload.email)) {
+        return Error('Invalid session token');
+      }
+      return true;
+    }),
+  body('consultant_uuid').not().isEmpty(),
+  body('dateTime', 'Invalid date-time').not().isEmpty()
+];
+
 export default validator;

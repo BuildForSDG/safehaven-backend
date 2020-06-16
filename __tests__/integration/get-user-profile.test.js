@@ -82,6 +82,8 @@ describe('users should be able to view profile(s)', () => {
         .get(`/api/v1/patients/${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          console.log('Patients :::::::: ');
+          console.log(res.body.data);
           expect(res.body.data.length).to.above(0);
           done();
         });
@@ -139,6 +141,8 @@ describe('users should be able to view profile(s)', () => {
       chai.request(app)
         .get(`/api/v1/consultants/${token}`)
         .end((err, res) => {
+          console.log('Consultants :::::::: ');
+          console.log(res.body.data);
           expect(res.status).to.equal(200);
           expect(res.body.data[0]).to.have.property('email');
           done();

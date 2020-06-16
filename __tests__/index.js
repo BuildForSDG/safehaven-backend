@@ -5,8 +5,8 @@ import './unit/dateChecker.test';
 import './unit/mailer.test';
 import './integration/get-user-profile.test';
 
-
 // Integration test
+import './integration/appointments.test';
 import './integration/auth.test';
 import './integration/signup.test';
 import './integration/signup-consultant.test';

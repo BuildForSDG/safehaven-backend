@@ -3,6 +3,7 @@ import auth from './auth';
 import consultant from './consultant';
 import patients from './patients';
 import profile from './profile';
+import appointments from './appointments';
 
 export default (app) => {
   app.use(express.json());
@@ -14,7 +15,7 @@ export default (app) => {
   }));
 
   app.use('/api/v1', [
-    auth, consultant, patients, profile
+    auth, consultant, patients, profile, appointments
   ]);
 
   app.all('/*', (req, res) => res.status(404).send({
