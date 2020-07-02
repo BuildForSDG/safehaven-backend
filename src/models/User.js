@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.associate = (models) => {
     User.hasOne(models.Consultant, {
-      foreignKey: 'uuid',
+      foreignKey: 'userUuid',
       as: 'consultant',
       onDelete: 'CASCADE'
     });

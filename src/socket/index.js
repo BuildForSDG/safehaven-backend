@@ -14,8 +14,8 @@ export default (io) => {
           console.log(error);
         }
       });
-      if (handshake.headers.token) {
-        const header = handshake.headers.token;
+      if (handshake.headers.authorization) {
+        const header = handshake.headers.authorization;
         if (header) {
           user = await SocketAuth(header, socket, io);
         }
