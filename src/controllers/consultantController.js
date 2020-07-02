@@ -23,16 +23,17 @@ const ConsultantController = {
     }
   },
   async updateProfile(req, res) {
-    const consultant = {};
+    // const consultant = {};
     const { uuid } = await verifyToken(req.params.token);
     try {
-      if (req.files.validIdCard !== undefined) {
-        consultant.validIdCard = await imageUploader('validCertificate', req.files.validCertificate);
-      }
-      if (req.files.validCertificate !== undefined) {
-        consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
-        await Consultant.update(consultant, { where: { uuid } });
-      }
+      // if (req.files.validIdCard !== undefined) {
+      //   consultant.validIdCard =
+      // await imageUploader('validCertificate', req.files.validCertificate);
+      // }
+      // if (req.files.validCertificate !== undefined) {
+      //   consultant.certificate = await imageUploader('validIdCard', req.files.validIdCard);
+      //   await Consultant.update(consultant, { where: { uuid } });
+      // }
 
       const {
         firstName, surName, email, phone,
@@ -44,9 +45,9 @@ const ConsultantController = {
       if (req.files.avatar !== undefined) {
         user.avatar = await imageUploader('avatar', req.files.avatar);
       }
-      await User.update(user, { where: { uuid } });
+      const editedUser = await User.update(user, { returning: true, where: { uuid } });
 
-      return sendSuccessResponse(res, 200, 'Account Succesfully updated');
+      return sendSuccessResponse(res, 200, editedUser[1]);
     } catch (e) {
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }

@@ -33,8 +33,8 @@ const PatientController = {
       }
 
       const { uuid } = await verifyToken(req.params.token);
-      await User.update(user, { where: { uuid } });
-      return sendSuccessResponse(res, 200, 'Account Succesfully updated');
+      const editedUser = await User.update(user, { returning: true, where: { uuid } });
+      return sendSuccessResponse(res, 200, editedUser[1]);
     } catch (e) {
       return sendErrorResponse(res, 500, 'INTERNAL SERVER ERROR');
     }
